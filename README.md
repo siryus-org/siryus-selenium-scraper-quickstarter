@@ -1,23 +1,28 @@
 # Selenium Scraper Starter
 
-This repository has a quick start to create a scrapper with selenium. Flask is used to create calls that execute functions in the scrapper, in addition to bearer authorization. It has a log system, environment management (production, staging, etc.) and a configuration with docker
+This repository provides a foundation for building robust and scalable web scrapers using Selenium and Flask. It emphasizes best practices including environment management, configuration with Docker, and a well-structured project layout.
 
-## `Local Deploy`
+## Key Features
 
-### 1. Prerequisites
+- **Selenium Automation:** Efficiently interact with dynamic webpages using Selenium's browser automation capabilities.
+- **Flask Backend:** Create a RESTful API with Flask to manage scraper execution, authorization, and logging.
+- **Bearer Authentication:** Implement a secure mechanism for API access using bearer tokens.
+- **Environment Management:** Facilitate deployment across different environments (production, staging) using environment variables.
+- **Docker Configuration:** Streamline containerization for a consistent and portable development experience.
+- **Logging System:** Track scraper activities and errors for debugging and monitoring.
 
-To build and run this application locally, ensure you have the following:
+## Local Setup
 
-- Install [Python](https://www.python.org/)
-- .env file **_(you can use .env.example to create this file)_**
-- [Postman](https://www.postman.com/) to be able to send requests to the server
-- [Chrome](https://www.google.com/intl/en_en/chrome)
+### Prerequisites
 
-### 2. Versions
+Before diving in, ensure you have the following tools installed:
 
-- **Python**: 3.12.2
+- **Python (version 3.x recommended):** Download and install from https://www.python.org/downloads/.
+- **.env file:** Create a `.env` file to store environment variables (refer to `.env.example` for guidance).
+- **HTTP Client (Postman recommended):** Use an HTTP client like https://www.postman.com/ to send requests to the Flask API.
+- **Chrome Browser:** Download and install the latest version from https://www.google.com/chrome/.
 
-### 3. Create virtual environment
+### Create a Virtual Environment
 
 We use a module named virtualenv which is a tool to create **isolated Python environments**. Virtualenv creates a folder that contains all the necessary executables to use the packages that a Python project would need.
 
@@ -25,20 +30,20 @@ We use a module named virtualenv which is a tool to create **isolated Python env
 python -m venv <whatever_virtual_environment_name>
 ```
 
-### 4. Activate virtual environment
+### Activate virtual environment
 
 ```bash
 source <whatever_virtual_environment_name>/bin/activate   # for Unix/Linux
 .\<whatever_virtual_environment_name>\Scripts\activate    # for Windows
 ```
 
-### 5. Install project libraries
+### Install project libraries
 
 ```bash
 python -r .\requirements.txt
 ```
 
-### 6. Run main file
+### Run main file
 
 ```bash
 py .\main.py
@@ -46,18 +51,18 @@ py .\main.py
 
 Now, the server is accessible at `http://localhost3000`
 
-## `Project Structure`
+## Project Structure
 
 ```bash
-├───main.py # Main file that raises the server. Contains the endpoints
-├───.vscode # Visual Studio Code specific configuration folder
-├───actions # Folder that contains the files related to the actions carried out by the bot. Each file in it is an action
-├───controller # It contains the functions that are executed on each endpoint
-├───temp_downloads # Folder containing temporary files downloaded during project execution
-└───utils # It contains the functions that are executed on each endpoint
+├─── main.py                   # Entry point for the Flask application
+├─── .vscode                   # Configuration for Visual Studio Code (optional)
+├─── actions                   # Contains scraper actions (logic for data extraction)
+├─── controller                # Functions handling API requests
+├─── temp_downloads            # Temporary files created during scraping
+└─── utils                     # Reusable helper functions
 ```
 
-## `Bibliography`
+## Bibliography
 
 - [Selenium Web Page](https://selenium-python.readthedocs.io/): Main bot technology
 - [Selenium Tutorial](https://youtube.com/playlist?list=PLheIVUbpfWZ17lCcHnoaa1RD59juFR06C&si=TTyB-dQQFl38tXO2)

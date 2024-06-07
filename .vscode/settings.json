@@ -13,5 +13,8 @@
         "seleniumbase",
         "venv",
         "virtualenv"
+    ],
+    "conventionalCommits.scopes": [
+        "Readme"
     ]
 }
