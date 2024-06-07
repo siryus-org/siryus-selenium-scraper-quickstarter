@@ -15,6 +15,7 @@
         "virtualenv"
     ],
     "conventionalCommits.scopes": [
-        "Readme"
+        "Readme",
+        "License"
     ]
 }
