@@ -22,7 +22,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/sample', methods=['POST'])
+@app.route('/sample', methods=['GET'])
 def sample_endpoint():
     return handle_request_endpoint(controller_sample)
 

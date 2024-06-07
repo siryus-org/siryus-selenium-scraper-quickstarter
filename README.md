@@ -51,6 +51,23 @@ py .\main.py
 
 Now, the server is accessible at `http://localhost3000`
 
+
+### First Call
+
+![First Call](./readmeImages/firstcall.png)
+
+![Auth Call](./readmeImages/authcall.png)
+
+### Make your firsts changes
+
+1. The first thing is to add your .env file. You can add a invented bearer token to get started
+
+2. Then configure the base url in the utils/config.py file
+
+3. In order to work on your project, you must add an endpoint to main.py.
+
+4. Next, create a controller, and add the different web actions on the controller. It is recommended to do actions with few steps, to be able to modularize your code, and not repeat code in the future.
+
 ## Project Structure
 
 ```bash
