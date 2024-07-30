@@ -27,7 +27,7 @@ Before diving in, ensure you have the following tools installed:
 We use a module named virtualenv which is a tool to create **isolated Python environments**. Virtualenv creates a folder that contains all the necessary executables to use the packages that a Python project would need.
 
 ```bash
-python -m venv <whatever_virtual_environment_name>
+python3 -m venv <whatever_virtual_environment_name>
 ```
 
 ### Activate virtual environment
@@ -46,7 +46,7 @@ pip install -r .\requirements.txt
 ### Run main file
 
 ```bash
-py .\main.py
+python3 .\main.py
 ```
 
 Now, the server is accessible at `http://localhost3000`
