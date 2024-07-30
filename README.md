@@ -40,7 +40,7 @@ source <whatever_virtual_environment_name>/bin/activate   # for Unix/Linux
 ### Install project libraries
 
 ```bash
-python -r .\requirements.txt
+pip install -r .\requirements.txt
 ```
 
 ### Run main file
