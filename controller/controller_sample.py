@@ -29,4 +29,4 @@ def controller_sample(data):
         return message
 
     except Exception as e:
-        raise messageError("Error send photos: " + str(e))
+        raise messageError("Error sample controoller: " + str(e))
