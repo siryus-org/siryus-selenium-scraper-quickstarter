@@ -51,7 +51,6 @@ python3 .\main.py
 
 Now, the server is accessible at `http://localhost3000`
 
-
 ### First Call
 
 ![First Call](./readmeImages/firstcall.png)
@@ -84,3 +83,50 @@ Now, the server is accessible at `http://localhost3000`
 - [Selenium Web Page](https://selenium-python.readthedocs.io/): Main bot technology
 - [Selenium Tutorial](https://youtube.com/playlist?list=PLheIVUbpfWZ17lCcHnoaa1RD59juFR06C&si=TTyB-dQQFl38tXO2)
 - [Flask](https://flask.palletsprojects.com/en/3.0.x/): Core technology for creating a REST API server
+
+## Commond Errors
+
+```bash
+Traceback (most recent call last):
+  File "/home/ismola/dev/siryus-botst/utils/logging_config.py", line 30, in configure_logger
+    logging.basicConfig(filename=log_filepath, level=logging.INFO,
+  File "/usr/lib/python3.10/logging/__init__.py", line 2040, in basicConfig
+```
+
+`The user who is running it does not have permissions, or the chromedriver has not been installed by the same user who runs the python`
+
+```bash
+ERROR: local variable 'driver' referenced before assignment
+```
+
+`It may be because the script are taking the chromedriver from the wrong place`
+
+### Steps
+
+#### 1. Check this script. Type python, and paste the content. If there are any errors, continue to the next step
+
+```bash
+from selenium.webdriver.chrome.service import Service
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--headless")
+
+# Ruta al chromedriver descargado manualmente
+service = Service("/ruta/a/chromedriver")
+driver = webdriver.Chrome(service=service, options=options)
+
+driver.get("https://www.google.com")
+print(driver.title)
+driver.quit()
+```
+
+#### 2. To have the python script install the chromedriver again, delete this folder
+
+```bash
+rm -rf ~/.wdm
+
+```
