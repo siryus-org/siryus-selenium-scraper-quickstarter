@@ -106,6 +106,13 @@ ERROR: local variable 'driver' referenced before assignment
 #### 1. Check this script. Type python, and paste the content. If there are any errors, continue to the next step
 
 ```bash
+# Download chromedriver You can also use this script that downloads the latest version automatically: https://github.com/Ismola/linux-chromedriver-updater
+wget https://chromedriver.storage.googleapis.com/131.0.6778.264/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip
+sudo mv chromedriver /usr/local/bin/
+sudo chmod +x /usr/local/bin/chromedriver
+
+#Use chromedriver
 from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -116,7 +123,7 @@ options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--headless")
 
 # Ruta al chromedriver descargado manualmente
-service = Service("/ruta/a/chromedriver")
+service = Service("/usr/local/bin/chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
 driver.get("https://www.google.com")
