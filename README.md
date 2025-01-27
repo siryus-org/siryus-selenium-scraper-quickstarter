@@ -106,7 +106,8 @@ ERROR: local variable 'driver' referenced before assignment
 #### 1. Check this script. Type python, and paste the content. If there are any errors, continue to the next step
 
 ```bash
-# Download chromedriver You can also use this script that downloads the latest version automatically: https://github.com/Ismola/linux-chromedriver-updater
+# Download chromedriver You can also use this script that downloads the latest version automatically:
+# https://github.com/Ismola/linux-chromedriver-updater
 wget https://chromedriver.storage.googleapis.com/131.0.6778.264/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
 sudo mv chromedriver /usr/local/bin/
