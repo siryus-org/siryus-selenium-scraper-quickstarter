@@ -19,8 +19,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 
-
-
 # Load environment variables
 load_dotenv()
 stage = os.getenv("STAGE")
@@ -29,8 +27,6 @@ stage = os.getenv("STAGE")
 route = ChromeDriverManager().install()
 options = Options()
 
-if stage == "production":
-    options.add_argument("--headless")
 
 # Variables to not be detected as a bot
 user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
@@ -56,26 +52,26 @@ options.add_argument("--disable-cache")
 options.add_argument("--disable-translate")
 
 exp_opt = [
-    # Disable possible errors
-    "enable_automation",
-    "ignore-certificate-errors",
-    "enable-logging"
+# Disable possible errors
+"enable_automation",
+"ignore-certificate-errors",
+"enable-logging"
 ]
 options.add_experimental_option("excludeSwitches", exp_opt)
 
 pref_opt = {
-    # Disable all type of popups
-    "profile.default_content_setting_values.notifications": 2,
-    "profile.password_manager_enabled": False,
-    "intl.accept_languages": ["es-Es", "es"],
-    "credentials_enable_service": False,
+# Disable all type of popups
+"profile.default_content_setting_values.notifications": 2,
+"profile.password_manager_enabled": False,
+"intl.accept_languages": ["es-Es", "es"],
+"credentials_enable_service": False,
 
-    # Automatic downloads
-    "download.default_directory": download_dir,
-    "download.prompt_for_download": False,
-    "download.directory_upgrade": True,
-    # Optional: Open PDFs in a separate viewer
-    "plugins.always_open_pdf_externally": True
+# Automatic downloads
+"download.default_directory": download_dir,
+"download.prompt_for_download": False,
+"download.directory_upgrade": True,
+# Optional: Open PDFs in a separate viewer
+"plugins.always_open_pdf_externally": True
 }
 options.add_experimental_option("prefs", pref_opt)
 
