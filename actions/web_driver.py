@@ -89,7 +89,8 @@ def get_wait(driver):
 
 
 def close_driver(driver):
-    driver.quit()
+    if driver:
+        driver.quit()
 
     # if stage == "production":
     #     kill_driver_process(driver)

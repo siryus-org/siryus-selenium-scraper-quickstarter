@@ -24,7 +24,7 @@ def controller_sample(data):
 
         # Add actions
 
-        close_driver(driver)
+        
 
         return message
 
