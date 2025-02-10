@@ -30,3 +30,6 @@ def controller_sample(data):
 
     except Exception as e:
         raise messageError("Error sample controoller: " + str(e))
+
+    finally:
+        close_driver(driver)
