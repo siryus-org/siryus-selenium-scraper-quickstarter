@@ -12,9 +12,6 @@ from selenium.webdriver.support import expected_conditions
 def login(driver, username, password):
     try:
         wait = get_wait(driver)
-        
-        
-        
         # THIS IS A SAMPLE!!
 
         logging.info('- Access the user field')
@@ -44,12 +41,6 @@ def login(driver, username, password):
         except Exception as e:
             raise messageError(
                 "The login button has not been found: " + str(e))
-
-
-
-        except Exception as e:
-            raise messageError(
-                "The login has failed: " + str(e))
 
         return driver
     except Exception as e:
