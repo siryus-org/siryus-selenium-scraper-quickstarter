@@ -40,13 +40,14 @@ source <whatever_virtual_environment_name>/bin/activate   # for Unix/Linux
 ### Install project libraries
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt  # Works for both Unix/Linux and Windows
 ```
 
 ### Run main file
 
 ```bash
-python3 .\main.py
+python3 main.py  # for Unix/Linux
+python main.py   # for Windows
 ```
 
 Now, the server is accessible at `http://localhost3000`
