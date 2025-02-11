@@ -17,6 +17,7 @@
     "conventionalCommits.scopes": [
         "Readme",
         "License",
-        "Login"
+        "Login",
+        "actions"
     ]
 }
