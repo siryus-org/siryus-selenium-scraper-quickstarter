@@ -18,6 +18,7 @@
         "Readme",
         "License",
         "Login",
-        "actions"
+        "actions",
+        "config"
     ]
 }

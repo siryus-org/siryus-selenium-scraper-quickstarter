@@ -10,7 +10,7 @@ download_dir_name = 'temp_downloads'
 
 download_dir = create_download_directory(download_dir_name)
 
-page_max_timeout = 15
+page_max_timeout = 7
 download_max_timeout = 4
 
 
