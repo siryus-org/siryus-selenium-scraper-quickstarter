@@ -4,6 +4,7 @@ import re
 import io
 import requests
 import base64
+from tempfile import NamedTemporaryFile
 
 from utils.error import messageError
 
@@ -82,3 +83,11 @@ def get_file(data):
             raise messageError(f"Error al decodificar Base64: {e}")
 
     raise messageError("Formato de archivo desconocido")
+
+def createTempFile(data):
+    with NamedTemporaryFile(delete=False) as temp_file:
+        temp_file.write(data)
+        temp_file_path = temp_file.name
+    
+    # El archivo temporal se ha cerrado después de salir del bloque 'with'
+    return temp_file_path

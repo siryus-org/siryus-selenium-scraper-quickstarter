@@ -19,6 +19,7 @@
         "License",
         "Login",
         "actions",
-        "config"
+        "config",
+        "File Manager"
     ]
 }
