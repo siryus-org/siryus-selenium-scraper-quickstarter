@@ -1,6 +1,12 @@
 import logging
 import os
 import re
+import io
+import requests
+import base64
+
+from utils.error import messageError
+
 
 def clear_directory(directory):
     # Check if the directory exists
@@ -42,3 +48,37 @@ def clean_filename(filename):
     # Replaces invalid characters with an empty string
     cleaned_filename = re.sub(invalid_chars_regex, '', filename)
     return cleaned_filename
+
+
+def get_file(data):
+    """ 
+    Obtiene el contenido de un archivo, ya sea desde una URL, un binario o en Base64.
+
+    :param data: URL del archivo, contenido binario o cadena Base64
+    :return: Contenido binario del archivo
+    :raises MessageError: Si el formato de archivo no es válido
+    """
+    url_pattern = re.compile(r'^https?://\S+$')
+
+    if isinstance(data, str) and url_pattern.match(data):
+        # Si es una URL, descarga el archivo
+        try:
+            response = requests.get(data, timeout=10)
+            response.raise_for_status()  # Lanza error si el request falla
+            return response.content
+        except requests.RequestException as e:
+            raise messageError(f"Error al descargar el archivo: {e}")
+
+    elif isinstance(data, (bytes, io.BytesIO)):
+        # Si es binario, lo devuelve tal cual
+        return data if isinstance(data, bytes) else data.getvalue()
+
+    elif isinstance(data, str):
+        # Si es una cadena, se asume que es Base64 y se decodifica
+        try:
+            # Intentamos decodificarlo como Base64
+            return base64.b64decode(data)
+        except Exception as e:
+            raise messageError(f"Error al decodificar Base64: {e}")
+
+    raise messageError("Formato de archivo desconocido")
