@@ -19,10 +19,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 
-# Load environment variables
-load_dotenv()
-stage = os.getenv("STAGE")
-
 
 route = ChromeDriverManager().install()
 options = Options()

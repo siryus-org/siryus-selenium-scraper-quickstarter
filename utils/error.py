@@ -1,18 +1,10 @@
 
 
-# Load environment variables from .env file
-import os
-from dotenv import load_dotenv
-
-
-load_dotenv()
-
-# Get environment variables
-stage = os.getenv("STAGE")
+from utils.config import STAGE
 
 
 class messageError(Exception):
     def __init__(self, message):
-        if stage != 'production':
+        if STAGE != 'production':
             print(message)
         super().__init__(message)

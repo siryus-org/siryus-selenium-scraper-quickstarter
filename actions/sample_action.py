@@ -1,11 +1,11 @@
 import logging
 from actions.click_element import click_element
 from actions.web_driver import get_wait
+from utils.config import STAGE
 from utils.error import messageError
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
-import os
-stage = os.getenv("STAGE")
+
 
 def sample_action(driver, activity_type):
     try:
@@ -22,7 +22,7 @@ def sample_action(driver, activity_type):
                 "The Accept button has not found: " + str(e))
 
         # Sample action of production action
-        if stage == "production" or stage == "testing":
+        if STAGE == "production" or STAGE == "testing":
             logging.info(
                 '- Access send button')
             try:
@@ -37,7 +37,7 @@ def sample_action(driver, activity_type):
         else:
             logging.info(
                 '- Skipping access send button')
-            if stage != "production":
+            if STAGE != "production":
                 print("Skipping click")
 
         return driver

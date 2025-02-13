@@ -4,21 +4,15 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from utils.config import has_display, url, download_dir, page_max_timeout
+from utils.config import STAGE, has_display, url, download_dir, page_max_timeout
 import psutil
-
-# Load environment variables
-import os
-from dotenv import load_dotenv
-load_dotenv()
-stage = os.getenv("STAGE")
 
 
 def get_driver():
     route = ChromeDriverManager().install()
     options = Options()
 
-    if stage == "production" or not has_display():
+    if STAGE == "production" or not has_display():
         options.add_argument("--headless")
 
     # Variables to not be detected as a bot
@@ -91,9 +85,6 @@ def get_wait(driver):
 def close_driver(driver):
     if driver:
         driver.quit()
-
-    # if stage == "production":
-    #     kill_driver_process(driver)
 
 
 # This function, kill all chrome process

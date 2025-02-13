@@ -1,15 +1,9 @@
 import logging
-import os
 import time
-from dotenv import load_dotenv
 from flask import jsonify, request
+from utils.config import STAGE
 from utils.logging_config import configure_logger
 from utils.security import authenticate_token
-# Load environment variables from .env file
-load_dotenv()
-
-# Get environment variables
-stage = os.getenv("STAGE")
 
 
 def handle_request_endpoint(controller_function):
@@ -17,7 +11,7 @@ def handle_request_endpoint(controller_function):
     start_time = time.time()
 
     logging.info("|| Controller:" + controller_function.__name__)
-    if stage != "production":
+    if STAGE != "production":
         print("|| Controller:" + controller_function.__name__)
 
     if not authenticate_token():

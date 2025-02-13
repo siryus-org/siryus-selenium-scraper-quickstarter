@@ -1,10 +1,6 @@
 import logging
-from dotenv import load_dotenv
 from flask import request
-import os
-load_dotenv()
-stage = os.getenv("STAGE")
-VALID_TOKEN = os.getenv("VALID_TOKEN")
+from utils.config import VALID_TOKEN
 
 
 def authenticate_token():

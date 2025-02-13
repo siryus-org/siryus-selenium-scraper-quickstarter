@@ -1,11 +1,14 @@
 from utils.file_manager import create_download_directory
 import os
 import platform
-
+from dotenv import load_dotenv
+load_dotenv()
+STAGE = os.getenv("STAGE")
+VALID_TOKEN = os.getenv("VALID_TOKEN")
 # Global variables
-url = "https://www.google.com/" #Change this to target url
+url = "https://www.google.com/"  # Change this to target url
 
-# If you need to 
+# If you need to
 download_dir_name = 'temp_downloads'
 
 download_dir = create_download_directory(download_dir_name)

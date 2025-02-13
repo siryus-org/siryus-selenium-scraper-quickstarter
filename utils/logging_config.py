@@ -1,14 +1,8 @@
 import os
 import logging
 from datetime import datetime
-from dotenv import load_dotenv
+from utils.config import STAGE
 from utils.error import messageError
-
-# Load environment variables from .env file
-load_dotenv()
-
-# Get environment variables
-stage = os.getenv("STAGE")
 
 
 def configure_logger():
@@ -32,7 +26,7 @@ def configure_logger():
 
         # Log the initiation of submission of information
         logging.info("Initiating log")
-        logging.info(f"Stage: {stage}")
+        logging.info(f"Stage: {STAGE}")
 
     except Exception as e:
         # In case of error, log the error and raise an exception

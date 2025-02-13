@@ -6,15 +6,10 @@ import ssl
 from flask import Flask, render_template
 # Imports of own modules
 from controller.controller_sample import controller_sample
+from utils.config import STAGE
 from utils.handle_request import handle_request_endpoint
 
 app = Flask(__name__)
-
-# Load environment variables from .env file
-load_dotenv()
-
-# Get environment variables
-stage = os.getenv("STAGE")
 
 
 @app.route('/')
@@ -30,7 +25,7 @@ def sample_endpoint():
 
 
 if __name__ == "__main__":
-    if stage == "production":
+    if STAGE == "production":
         # You can change that using nginx and Gunicorn
         context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
         context.load_cert_chain("./certs/cert.pem", "./certs/private.pem")
