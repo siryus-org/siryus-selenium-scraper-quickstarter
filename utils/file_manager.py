@@ -4,9 +4,10 @@ import re
 import io
 import requests
 import base64
-from tempfile import NamedTemporaryFile
-
 from utils.error import messageError
+import uuid
+import tempfile
+import shutil
 
 
 def clear_directory(directory):
@@ -56,38 +57,57 @@ def get_file(data):
     Obtiene el contenido de un archivo, ya sea desde una URL, un binario o en Base64.
 
     :param data: URL del archivo, contenido binario o cadena Base64
-    :return: Contenido binario del archivo
+    :return: Contenido binario del archivo, nombre del archivo y su extensión
     :raises MessageError: Si el formato de archivo no es válido
     """
     url_pattern = re.compile(r'^https?://\S+$')
 
     if isinstance(data, str) and url_pattern.match(data):
-        # Si es una URL, descarga el archivo
+        # Si es una URL, obtiene el nombre y extensión del archivo
         try:
             response = requests.get(data, timeout=10)
             response.raise_for_status()  # Lanza error si el request falla
-            return response.content
+
+            # Obtener el nombre y la extensión desde la URL
+            file_name = os.path.basename(data)
+            if not file_name:  # Si no se obtiene el nombre del archivo, genera un ID único
+                file_name = f"{uuid.uuid4()}.unknown"
+
+            return response.content, file_name
+
         except requests.RequestException as e:
             raise messageError(f"Error al descargar el archivo: {e}")
 
     elif isinstance(data, (bytes, io.BytesIO)):
         # Si es binario, lo devuelve tal cual
-        return data if isinstance(data, bytes) else data.getvalue()
+        # Genera un nombre genérico para binarios
+        file_name = f"{uuid.uuid4()}.bin"
+        return data if isinstance(data, bytes) else data.getvalue(), file_name
 
     elif isinstance(data, str):
         # Si es una cadena, se asume que es Base64 y se decodifica
         try:
             # Intentamos decodificarlo como Base64
-            return base64.b64decode(data)
+            decoded_data = base64.b64decode(data)
+            file_name = f"{uuid.uuid4()}.base64"  # Nombre genérico para Base64
+            return decoded_data, file_name
         except Exception as e:
             raise messageError(f"Error al decodificar Base64: {e}")
 
     raise messageError("Formato de archivo desconocido")
 
-def createTempFile(data):
-    with NamedTemporaryFile(delete=False) as temp_file:
+
+def createTempFile(data, file_name):
+    # Crear el archivo temporal con delete=False
+    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+        # Escribir los datos en el archivo temporal
         temp_file.write(data)
         temp_file_path = temp_file.name
-    
-    # El archivo temporal se ha cerrado después de salir del bloque 'with'
-    return temp_file_path
+
+    # Renombrar el archivo temporal con el nombre especificado
+    final_path = os.path.join(os.path.dirname(temp_file_path), file_name)
+    # Mover y renombrar el archivo temporal
+    shutil.move(temp_file_path, final_path)
+
+    # Retorna la ruta del archivo renombrado
+    return final_path
