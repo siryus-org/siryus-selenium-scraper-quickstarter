@@ -22,5 +22,10 @@
 				"vivaxy.vscode-conventional-commits"
 			]
 		}
+	},
+	"hostRequirements": {
+		"cpus": 2,
+		"memory": "8gb",
+		"storage": "32gb"
 	}
 }
