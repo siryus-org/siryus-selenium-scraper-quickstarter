@@ -1,20 +1,19 @@
-from utils.file_manager import create_download_directory
 import os
 import platform
 from dotenv import load_dotenv
 load_dotenv()
+# Global variables
 STAGE = os.getenv("STAGE")
 VALID_TOKEN = os.getenv("VALID_TOKEN")
-# Global variables
-url = "https://www.google.com/"  # Change this to target url
+URL = "https://www.google.com/"  # Change this to target url
+DOWNLOAD_DIR_NAME = 'temp_downloads'
+from utils.file_manager import create_download_directory
+DOWNLOAD_DIR = create_download_directory(DOWNLOAD_DIR_NAME)
 
-# If you need to
-download_dir_name = 'temp_downloads'
 
-download_dir = create_download_directory(download_dir_name)
 
-page_max_timeout = 7
-download_max_timeout = 4
+PAGE_MAX_TIMEOUT = 7
+DOWNLOAD_MAX_TIMEOUT = 4
 
 
 def has_display():

@@ -1,3 +1,4 @@
+from utils.error import messageError
 import logging
 import os
 import re
@@ -52,7 +53,6 @@ def clean_filename(filename):
 
 
 def get_file(data):
-    from utils.error import messageError
     """ 
     Obtiene el contenido de un archivo, ya sea desde una URL, un binario o en Base64.
 

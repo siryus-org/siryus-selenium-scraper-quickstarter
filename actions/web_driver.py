@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from utils.config import STAGE, has_display, url, download_dir, page_max_timeout
+from utils.config import PAGE_MAX_TIMEOUT, STAGE, URL, has_display
 import psutil
 
 
@@ -73,13 +73,13 @@ def get_page():
     logging.info('Starting driver')
     driver = get_driver()
     logging.info('Getting URL')
-    driver.get(url)
+    driver.get(URL)
     return driver
 
 
 def get_wait(driver):
     # Return wait function
-    return WebDriverWait(driver, page_max_timeout)
+    return WebDriverWait(driver, PAGE_MAX_TIMEOUT)
 
 
 def close_driver(driver):
