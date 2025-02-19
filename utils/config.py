@@ -3,8 +3,8 @@ import platform
 from dotenv import load_dotenv
 load_dotenv()
 # Global variables
-STAGE = os.getenv("STAGE")
-VALID_TOKEN = os.getenv("VALID_TOKEN")
+STAGE = os.getenv("STAGE") or 'staging'
+VALID_TOKEN = os.getenv("VALID_TOKEN") or 'sample'
 URL = "https://www.google.com/"  # Change this to target url
 DOWNLOAD_DIR_NAME = 'temp_downloads'
 from utils.file_manager import create_download_directory
