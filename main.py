@@ -1,12 +1,10 @@
+from utils.config import STAGE
 # Imports from external libraries
-from dotenv import load_dotenv
-import os
 import ssl
 # Flask imports and their extensions
 from flask import Flask, render_template
 # Imports of own modules
 from controller.controller_sample import controller_sample
-from utils.config import STAGE
 from utils.handle_request import handle_request_endpoint
 
 app = Flask(__name__)

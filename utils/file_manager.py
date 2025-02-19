@@ -4,7 +4,6 @@ import re
 import io
 import requests
 import base64
-from utils.error import messageError
 import uuid
 import tempfile
 import shutil
@@ -53,6 +52,7 @@ def clean_filename(filename):
 
 
 def get_file(data):
+    from utils.error import messageError
     """ 
     Obtiene el contenido de un archivo, ya sea desde una URL, un binario o en Base64.
 
