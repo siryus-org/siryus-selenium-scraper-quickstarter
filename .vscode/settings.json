@@ -21,6 +21,7 @@
         "actions",
         "config",
         "File Manager",
-        ".ENV"
+        ".ENV",
+        "Main"
     ]
 }
