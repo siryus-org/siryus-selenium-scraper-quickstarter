@@ -16,7 +16,8 @@
 				"ms-python.autopep8",
 				"donjayamanne.python-extension-pack",
 				"vivaxy.vscode-conventional-commits",
-				"oderwat.indent-rainbow"
+				"oderwat.indent-rainbow",
+				"Gruntfuggly.todo-tree"
 			],
 			"settings": {
 				"python.terminal.activateEnvInCurrentTerminal": true,
