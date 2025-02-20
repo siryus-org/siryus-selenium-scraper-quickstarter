@@ -2,7 +2,7 @@ from utils.config import STAGE
 # Imports from external libraries
 import ssl
 # Flask imports and their extensions
-from flask import Flask, render_template
+from flask import Flask
 # Imports of own modules
 from controller.controller_sample import controller_sample
 from utils.handle_request import handle_request_endpoint
