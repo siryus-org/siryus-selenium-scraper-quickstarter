@@ -19,12 +19,11 @@ def controller_sample(data):
         logging.info("|| Get initial page")
         driver = get_page()
 
+        # TODO: decominate to use login
         logging.info("|| Init Login")
         # driver = login(driver, username, password)
 
         # Add actions
-
-        
 
         return message
 

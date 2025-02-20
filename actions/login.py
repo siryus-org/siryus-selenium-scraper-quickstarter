@@ -7,6 +7,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 
 # The driver must have accessed the target url
+# TODO: Modify login for hacerlo coincide with the web site
+
 def login(driver, username, password):
     try:
         wait = get_wait(driver)
