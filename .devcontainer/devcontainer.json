@@ -15,7 +15,8 @@
 			"extensions": [
 				"ms-python.autopep8",
 				"donjayamanne.python-extension-pack",
-				"vivaxy.vscode-conventional-commits"
+				"vivaxy.vscode-conventional-commits",
+				"oderwat.indent-rainbow"
 			],
 			"settings": {
 				"python.terminal.activateEnvInCurrentTerminal": true,
