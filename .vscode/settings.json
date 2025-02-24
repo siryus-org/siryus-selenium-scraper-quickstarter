@@ -23,6 +23,7 @@
         "File Manager",
         ".ENV",
         "Main",
-        "DevContainer"
+        "DevContainer",
+        "Handle Request"
     ]
 }
