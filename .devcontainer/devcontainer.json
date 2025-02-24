@@ -18,7 +18,8 @@
 				"vivaxy.vscode-conventional-commits",
 				"oderwat.indent-rainbow",
 				"Gruntfuggly.todo-tree",
-				"mikestead.dotenv"
+				"mikestead.dotenv",
+				"usernamehw.errorlens"
 			],
 			"settings": {
 				"python.terminal.activateEnvInCurrentTerminal": true,
