@@ -10,8 +10,6 @@ VALID_TOKEN = os.getenv("VALID_TOKEN") or 'sample'
 URL = "https://www.google.com/"
 DOWNLOAD_DIR_NAME = 'temp_downloads'
 DOWNLOAD_DIR = create_download_directory(DOWNLOAD_DIR_NAME)
-
-
 PAGE_MAX_TIMEOUT = 7
 DOWNLOAD_MAX_TIMEOUT = 4
 

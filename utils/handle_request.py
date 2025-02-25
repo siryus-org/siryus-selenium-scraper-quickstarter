@@ -14,10 +14,8 @@ def handle_request_endpoint(controller_function):
         print("|| Controller:" + controller_function.__name__)
     if not authenticate_token():
         return jsonify({"status": "ERROR", "message": "Unauthorized", "time": time.time() - start_time}), 401
-
     if not request.is_json:
         return jsonify({"status": "ERROR", "message": "A JSON was expected in the request body", "time": time.time() - start_time}), 400
-
     try:
         data = request.json
         logging.info(

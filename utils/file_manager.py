@@ -76,7 +76,7 @@ def get_file(data):
             return response.content, file_name
 
         except requests.RequestException as e:
-            raise messageError(f"Error al descargar el archivo: {e}")
+            raise messageError(f"Error when downloading the file: {e}")
 
     elif isinstance(data, (bytes, io.BytesIO)):
         # Si es binario, lo devuelve tal cual
@@ -94,7 +94,7 @@ def get_file(data):
         except Exception as e:
             raise messageError(f"Error al decodificar Base64: {e}")
 
-    raise messageError("Formato de archivo desconocido")
+    raise messageError("Unknown file format")
 
 
 def createTempFile(data, file_name):

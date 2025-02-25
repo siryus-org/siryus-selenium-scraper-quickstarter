@@ -1,4 +1,5 @@
 
+import inspect
 import logging
 from actions.login import login
 from actions.web_driver import close_driver, get_page
@@ -28,7 +29,8 @@ def controller_sample(data):
         return message
 
     except Exception as e:
-        raise messageError("Error sample controoller: " + str(e))
+        raise messageError(
+            f"Error {inspect.currentframe().f_code.co_name}: {e}")
 
     finally:
         close_driver(driver)

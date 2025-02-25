@@ -1,3 +1,4 @@
+import inspect
 from utils.error import messageError
 from selenium.webdriver.common.action_chains import ActionChains
 
@@ -10,4 +11,5 @@ def click_element(driver, element):
         element.click()
         return driver
     except Exception as e:
-        raise messageError(f"Error click on {element.text}" + str(e))
+        raise messageError(
+            f"Error {inspect.currentframe().f_code.co_name}: {e}")

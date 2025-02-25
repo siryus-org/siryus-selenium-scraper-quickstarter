@@ -1,3 +1,4 @@
+import inspect
 import logging
 from actions.click_element import click_element
 from actions.web_driver import get_wait
@@ -8,6 +9,7 @@ from selenium.webdriver.support import expected_conditions
 
 # The driver must have accessed the target url
 # TODO: Modify login for hacerlo coincide with the web site
+
 
 def login(driver, username, password):
     try:
@@ -49,4 +51,4 @@ def login(driver, username, password):
         return driver
     except Exception as e:
         raise messageError(
-            "Error login: " + str(e))
+            f"Error {inspect.currentframe().f_code.co_name}: {e}")

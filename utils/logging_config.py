@@ -1,3 +1,4 @@
+import inspect
 import os
 import logging
 from datetime import datetime
@@ -7,30 +8,26 @@ from utils.error import messageError
 
 def configure_logger():
     try:
-
         # Get the current date and time to use in the log file name
         current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         # Create the logs directory if it does not exist
         base_directory = '/app' if os.environ.get('DOCKERIZED', False) else ''
-
         logs_directory = os.path.join(base_directory, 'logs')
         os.makedirs(logs_directory, exist_ok=True)
-
         # Configure the name of the log file with the date, time, and incident number
         log_filename = f"{current_datetime}.log"
         log_filepath = os.path.join(logs_directory, log_filename)
-
         # Configure the logging system to write to the dynamically created file
         logging.basicConfig(filename=log_filepath, level=logging.INFO,
                             format='%(asctime)s - %(levelname)s - %(message)s')
-
         # Log the initiation of submission of information
         logging.info("Initiating log")
         logging.info(f"Stage: {STAGE}")
 
     except Exception as e:
         # In case of error, log the error and raise an exception
-        raise messageError("Error setting up logging")
+        raise messageError(
+            f"Error {inspect.currentframe().f_code.co_name}: {e}")
 
 
 # INFO

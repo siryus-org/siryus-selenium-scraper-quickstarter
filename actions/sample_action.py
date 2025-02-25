@@ -1,3 +1,4 @@
+import inspect
 import logging
 from actions.click_element import click_element
 from actions.web_driver import get_wait
@@ -7,7 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 
 
-def sample_action(driver, activity_type):
+def sample_action(driver):
     try:
         wait = get_wait(driver)
         logging.info('- Access add activity button')
@@ -42,4 +43,5 @@ def sample_action(driver, activity_type):
 
         return driver
     except Exception as e:
-        raise messageError("Error sample action: " + str(e))
+        raise messageError(
+            f"Error {inspect.currentframe().f_code.co_name}: {e}")
