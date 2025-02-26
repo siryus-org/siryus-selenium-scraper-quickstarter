@@ -16,9 +16,10 @@ This repository provides a foundation for building robust and scalable web scrap
 To set up the development environment using Dev Container, follow these steps:
 
 1. Install [Visual Studio Code](https://code.visualstudio.com/) and the [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
-2. Clone the repository to your local machine.
-3. Open the project in Visual Studio Code.
-4. When prompted, select "Reopen in Container" to automatically build and open the project inside the Dev Container.
+2. Install [Docker](https://www.docker.com/)
+3. Clone the repository to your local machine.
+4. Open the project in Visual Studio Code.
+5. When prompted, select "Reopen in Container" to automatically build and open the project inside the Dev Container.
     - **.env file:** Create a `.env` file to store environment variables (refer to `.env.example` for guidance).
 
 This setup will ensure all necessary dependencies are installed and provide an isolated environment tailored for development.
