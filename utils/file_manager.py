@@ -1,10 +1,10 @@
-from utils.error import messageError
 import logging
 import os
 import re
 import io
 import requests
 import base64
+from utils.error import messageError
 import uuid
 import tempfile
 import shutil
@@ -76,7 +76,7 @@ def get_file(data):
             return response.content, file_name
 
         except requests.RequestException as e:
-            raise messageError(f"Error when downloading the file: {e}")
+            raise messageError(f"Error al descargar el archivo: {e}")
 
     elif isinstance(data, (bytes, io.BytesIO)):
         # Si es binario, lo devuelve tal cual
@@ -94,7 +94,7 @@ def get_file(data):
         except Exception as e:
             raise messageError(f"Error al decodificar Base64: {e}")
 
-    raise messageError("Unknown file format")
+    raise messageError("Formato de archivo desconocido")
 
 
 def createTempFile(data, file_name):

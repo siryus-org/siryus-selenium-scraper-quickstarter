@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from utils.config import PAGE_MAX_TIMEOUT, STAGE, URL, has_display
+from utils.config import PAGE_MAX_TIMEOUT, STAGE, URL,DOWNLOAD_DIR, has_display
 import psutil
 
 
@@ -54,7 +54,7 @@ def get_driver():
         "credentials_enable_service": False,
 
         # Automatic downloads
-        "download.default_directory": download_dir,
+        "download.default_directory": DOWNLOAD_DIR,
         "download.prompt_for_download": False,
         "download.directory_upgrade": True,
         # Optional: Open PDFs in a separate viewer

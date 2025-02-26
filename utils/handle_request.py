@@ -1,13 +1,15 @@
 import logging
 import time
 from flask import jsonify, request
-from utils.config import STAGE
+from utils.config import DOWNLOAD_DIR, STAGE
+from utils.file_manager import create_download_directory
 from utils.logging_config import configure_logger
 from utils.security import authenticate_token
 
 
 def handle_request_endpoint(controller_function):
     configure_logger()
+    create_download_directory(DOWNLOAD_DIR)
     start_time = time.time()
     logging.info("|| Controller:" + controller_function.__name__)
     if STAGE != "production":

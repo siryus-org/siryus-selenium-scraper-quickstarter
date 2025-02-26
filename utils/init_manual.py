@@ -7,7 +7,9 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from utils.config import download_dir
+
+from utils.config import DOWNLOAD_DIR
+
 load_dotenv()
 stage = os.getenv("STAGE")
 route = ChromeDriverManager().install()
@@ -46,7 +48,7 @@ pref_opt = {
     "profile.password_manager_enabled": False,
     "intl.accept_languages": ["es-Es", "es"],
     "credentials_enable_service": False,
-    "download.default_directory": download_dir,
+    "download.default_directory": DOWNLOAD_DIR,
     "download.prompt_for_download": False,
     "download.directory_upgrade": True,
     "plugins.always_open_pdf_externally": True
