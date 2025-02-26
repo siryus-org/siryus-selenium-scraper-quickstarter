@@ -27,7 +27,7 @@ This setup will ensure all necessary dependencies are installed and provide an i
 
 If you prefer to use GitHub Codespaces, follow these steps:
 
-1. Navigate to the repository on [GitHub](https://github.com/).
+1. Navigate to the repository on [GitHub](https://github.com/Ismola/selenium-scraper-quickstarter).
 2. Click the green "Code" button, then select "Open with Codespaces."
 3. GitHub will automatically build and open the project in a preconfigured environment.
     - **.env file:** Create a `.env` file to store environment variables (refer to `.env.example` for guidance).
