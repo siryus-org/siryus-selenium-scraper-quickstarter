@@ -15,18 +15,17 @@
         "virtualenv"
     ],
     "conventionalCommits.scopes": [
-        "Readme",
-        "License",
-        "Login",
-        "actions",
+        "readme",
+        "license",
+        "login_sample",
         "config",
-        "File Manager",
-        ".ENV",
-        "Main",
-        "DevContainer",
-        "Handle Request",
+        "file_manager",
+        ".env.example",
+        "main",
+        "devContainer",
+        "handle_request_endpoint",
         "search_element",
-        "write Element has slow mode",
-        "Logger"
+        "write_element",
+        "logger"
     ]
 }

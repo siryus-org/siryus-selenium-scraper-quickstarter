@@ -7,12 +7,12 @@ from selenium.webdriver.support import expected_conditions
 # This function searches for an element on the page, scrolls to it, and click to it.
 
 
-def search_element(driver, locator, clickable=True, raise_exception=True):
+def search_element(driver, locator, wait_to_be_clickable=True, raise_exception=True):
     # locator  example: By.CSS_SELECTOR, '[data-testid="login-submit-button"]'
     logging.info('- Access {}'.format(locator))
     wait = get_wait(driver)
     try:
-        if clickable:
+        if wait_to_be_clickable:
             element = wait.until(expected_conditions.element_to_be_clickable((
                 locator
             )))
