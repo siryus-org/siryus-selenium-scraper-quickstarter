@@ -15,6 +15,8 @@ def index():
     return 'selenium-scraper-quickstarter'
 
 # TODO modify this endpoint to do what is needed
+
+
 @app.route('/sample', methods=['GET'])
 def sample_endpoint():
     return handle_request_endpoint(controller_sample)

@@ -48,9 +48,11 @@ def delete_old_logs():
 
         for file in files:
             # Check if the filename matches the expected format (e.g., '2025-02-26_11-13-20.log')
-            match = re.match(r"(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2})\.log", file)
+            match = re.match(
+                r"(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2})\.log", file)
             if match:
-                file_datetime = datetime.strptime(match.group(1), "%Y-%m-%d_%H-%M-%S")
+                file_datetime = datetime.strptime(
+                    match.group(1), "%Y-%m-%d_%H-%M-%S")
                 difference = current_datetime - file_datetime
                 months = difference.days / 30
 
@@ -62,7 +64,6 @@ def delete_old_logs():
 
     except Exception as e:
         raise messageError("Error deleting old logs")
-
 
 
 # INFO
