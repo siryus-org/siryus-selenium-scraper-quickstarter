@@ -19,7 +19,8 @@
 				"oderwat.indent-rainbow",
 				"Gruntfuggly.todo-tree",
 				"mikestead.dotenv",
-				"usernamehw.errorlens"
+				"usernamehw.errorlens",
+				"DavidAnson.vscode-markdownlint"
 			],
 			"settings": {
 				"python.terminal.activateEnvInCurrentTerminal": true,

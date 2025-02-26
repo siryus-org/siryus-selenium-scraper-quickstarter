@@ -26,6 +26,7 @@
         "DevContainer",
         "Handle Request",
         "search_element",
-        "write Element has slow mode"
+        "write Element has slow mode",
+        "Logger"
     ]
 }

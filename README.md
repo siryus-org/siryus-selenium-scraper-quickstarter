@@ -11,16 +11,39 @@ This repository provides a foundation for building robust and scalable web scrap
 - **Docker Configuration:** Streamline containerization for a consistent and portable development experience.
 - **Logging System:** Track scraper activities and errors for debugging and monitoring.
 
-## Local Setup
+## Local Setup - ``Dev Container`` (recomended)
+
+To set up the development environment using Dev Container, follow these steps:
+
+1. Install [Visual Studio Code](https://code.visualstudio.com/) and the [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+2. Clone the repository to your local machine.
+3. Open the project in Visual Studio Code.
+4. When prompted, select "Reopen in Container" to automatically build and open the project inside the Dev Container.
+    - **.env file:** Create a `.env` file to store environment variables (refer to `.env.example` for guidance).
+
+This setup will ensure all necessary dependencies are installed and provide an isolated environment tailored for development.
+
+## Cloud Setup - ``GitHub Codespaces``
+
+If you prefer to use GitHub Codespaces, follow these steps:
+
+1. Navigate to the repository on [GitHub](https://github.com/).
+2. Click the green "Code" button, then select "Open with Codespaces."
+3. GitHub will automatically build and open the project in a preconfigured environment.
+    - **.env file:** Create a `.env` file to store environment variables (refer to `.env.example` for guidance).
+
+Using GitHub Codespaces provides a cloud-based development environment with all dependencies pre-configured and ready to use.
+
+## Local Setup - ``MANUAL``
 
 ### Prerequisites
 
 Before diving in, ensure you have the following tools installed:
 
-- **Python (version 3.x recommended):** Download and install from https://www.python.org/downloads/.
+- **Python (version 3.x recommended):** Download and install from <https://www.python.org/downloads/>.
 - **.env file:** Create a `.env` file to store environment variables (refer to `.env.example` for guidance).
-- **HTTP Client (Postman recommended):** Use an HTTP client like https://www.postman.com/ to send requests to the Flask API.
-- **Chrome Browser:** Download and install the latest version from https://www.google.com/chrome/.
+- **HTTP Client (Postman recommended):** Use an HTTP client like <https://www.postman.com/> to send requests to the Flask API.
+- **Chrome Browser:** Download and install the latest version from <https://www.google.com/chrome/>.
 
 ### Create a Virtual Environment
 
@@ -43,7 +66,7 @@ source <whatever_virtual_environment_name>/bin/activate   # for Unix/Linux
 pip install -r requirements.txt  # Works for both Unix/Linux and Windows
 ```
 
-### Run main file
+## Run app
 
 ```bash
 python3 main.py  # for Unix/Linux
