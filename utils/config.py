@@ -6,15 +6,19 @@ load_dotenv()
 STAGE = os.getenv("STAGE") or 'staging'
 VALID_TOKEN = os.getenv("VALID_TOKEN") or 'sample'
 AUTO_DELETE_LOGS = os.getenv("AUTO_DELETE_LOGS") or True
-# AUTO_DELETE_LOGS = os.getenv("AUTO_DELETE_LOGS") or True
-# TODO Change this to target url
-URL = "https://www.google.com/"
+HEADLESS_MODE = os.getenv("HEADLESS_MODE") or 'auto'
 DOWNLOAD_DIR = 'temp_downloads'
 PAGE_MAX_TIMEOUT = 7
 DOWNLOAD_MAX_TIMEOUT = 4
+# TODO Change this to target url
+URL = "https://www.google.com/"
 
 
 def has_display():
+    if HEADLESS_MODE == False:
+        return False
+
+    # ⬇️ Automatic mode
     system = platform.system()
     if system == "Windows":
         try:

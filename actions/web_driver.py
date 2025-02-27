@@ -12,7 +12,7 @@ def get_driver():
     route = ChromeDriverManager().install()
     options = Options()
 
-    if STAGE == "production" or not has_display():
+    if not has_display():
         options.add_argument("--headless")
 
     # Variables to not be detected as a bot
