@@ -26,6 +26,7 @@
         "handle_request_endpoint",
         "search_element",
         "write_element",
-        "logger"
+        "logger",
+        "docker"
     ]
 }

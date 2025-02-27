@@ -20,14 +20,6 @@ WORKDIR /app
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
-ARG UID=10001
-RUN adduser \
-    --disabled-password \
-    --gecos "" \
-    --home "/home/appuser" \ 
-    --shell "/sbin/nologin" \
-    --uid "${UID}" \
-    appuser
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
@@ -45,13 +37,13 @@ RUN apt-get update && apt-get install -y wget \
     && apt-get clean
 
 # Switch to the non-privileged user to run the application.
-USER appuser
+USER root
 
 # Copy the source code into the container.
 COPY . .
 
-# Expose the port that the application listens on.
-EXPOSE 5000
+# TODO Expose the port that the application listens on.
+EXPOSE 3000
 
 # Run the application.
 CMD python3 main.py
