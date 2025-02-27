@@ -7,19 +7,25 @@ from selenium.webdriver.support import expected_conditions
 # This function searches for an element on the page, scrolls to it, and click to it.
 
 
-def search_element(driver, locator, wait_to_be_clickable=True, raise_exception=True):
-    # locator  example: By.CSS_SELECTOR, '[data-testid="login-submit-button"]'
+def search_element(driver, locator, wait_to_search=True, raise_exception=True):
+
+    # locator  example: driver, (By.XPATH, "//span[contains(@class, 'x-menu-item-text') and contains(text(), '{}')]".format(xpath))
     logging.info('- Access {}'.format(locator))
     wait = get_wait(driver)
     try:
-        if wait_to_be_clickable:
-            element = wait.until(expected_conditions.element_to_be_clickable((
-                locator
-            )))
+        if wait_to_search:
+            logging.info('- Waiting to search {}'.format(locator))
+            try:
+                element = wait.until(expected_conditions.element_to_be_clickable((
+                    locator
+                )))
+            except:
+                element = wait.until(expected_conditions.visibility_of_element_located((
+                    locator
+                )))
         else:
-            element = wait.until(expected_conditions.visibility_of_element_located((
-                locator
-            )))
+            logging.info('- Waiting to search {}'.format(locator))
+            element = driver.find_element(*locator)
         return element
     except Exception as e:
         if raise_exception:
