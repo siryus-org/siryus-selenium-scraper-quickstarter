@@ -10,8 +10,7 @@ HEADLESS_MODE = os.getenv("HEADLESS_MODE") or 'auto'
 DOWNLOAD_DIR = 'temp_downloads'
 PAGE_MAX_TIMEOUT = 7
 DOWNLOAD_MAX_TIMEOUT = 4
-# TODO Change this to target url
-URL = "https://www.google.com/"
+URL = os.getenv("URL") or 'https://www.google.com/'
 
 
 def has_display():
