@@ -126,3 +126,11 @@ ERROR: local variable 'driver' referenced before assignment
 ```bash
 rm -rf ~/.wdm
 ```
+
+## Bring changes from the template
+
+```bash
+git remote add template https://github.com/Ismola/selenium-scraper-quickstarter
+git fetch template
+git merge template/main --allow-unrelated-histories
+```
