@@ -14,7 +14,7 @@ URL = os.getenv("URL") or 'https://www.google.com/'
 
 
 def has_display():
-    if HEADLESS_MODE == True:
+    if HEADLESS_MODE == 'True':
         return False
 
     # ⬇️ Automatic mode
