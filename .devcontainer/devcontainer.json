@@ -15,12 +15,7 @@
 			"extensions": [
 				"ms-python.autopep8",
 				"donjayamanne.python-extension-pack",
-				"vivaxy.vscode-conventional-commits",
-				"oderwat.indent-rainbow",
-				"Gruntfuggly.todo-tree",
-				"mikestead.dotenv",
-				"usernamehw.errorlens",
-				"DavidAnson.vscode-markdownlint"
+				"ismola.ismola-extension-pack"
 			],
 			"settings": {
 				"python.terminal.activateEnvInCurrentTerminal": true,
