@@ -10,11 +10,10 @@ from selenium.webdriver.support import expected_conditions
 def search_element(driver, locator, wait_to_search=True, raise_exception=True):
 
     # locator  example: driver, (By.XPATH, "//span[contains(@class, 'x-menu-item-text') and contains(text(), '{}')]".format(xpath))
-    logging.info('- Access {}'.format(locator))
+    logging.info('- Searching {}'.format(locator))
     wait = get_wait(driver)
     try:
         if wait_to_search:
-            logging.info('- Waiting to search {}'.format(locator))
             try:
                 element = wait.until(expected_conditions.element_to_be_clickable((
                     locator
@@ -24,7 +23,6 @@ def search_element(driver, locator, wait_to_search=True, raise_exception=True):
                     locator
                 )))
         else:
-            logging.info('- Waiting to search {}'.format(locator))
             element = driver.find_element(*locator)
         return element
     except Exception as e:
