@@ -27,6 +27,7 @@
         "search_element",
         "write_element",
         "logger",
-        "docker"
+        "docker",
+        "init_manual"
     ]
 }
