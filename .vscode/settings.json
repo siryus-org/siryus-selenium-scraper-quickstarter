@@ -28,6 +28,7 @@
         "write_element",
         "logger",
         "docker",
-        "init_manual"
+        "init_manual",
+        "web driver"
     ]
 }
