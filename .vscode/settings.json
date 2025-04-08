@@ -29,6 +29,7 @@
         "logger",
         "docker",
         "init_manual",
-        "web driver"
+        "web driver",
+        "controller sample"
     ]
 }
