@@ -7,7 +7,7 @@ from utils.logging_config import configure_logger
 from utils.security import authenticate_token
 
 
-def handle_request_endpoint(controller_function):
+def handle_request_endpoint(controller_function, decode_response=True):
     configure_logger()
     create_download_directory(DOWNLOAD_DIR)
     start_time = time.time()
@@ -23,8 +23,11 @@ def handle_request_endpoint(controller_function):
         logging.info(
             {key: value for key, value in data.items() if key != 'password'})
         message = controller_function(data)
-        logging.info(f"OK - message: {message}")
-        return jsonify({"status": "OK", "message": message, "time": time.time() - start_time}), 200
+        if decode_response:
+            logging.info(f"OK - message: {message}")
+            return jsonify({"status": "OK", "message": message, "time": time.time() - start_time}), 200
+        else:
+            return message
     except Exception as e:
         error_message = str(e)
         logging.error(f"ERROR: {error_message}")
