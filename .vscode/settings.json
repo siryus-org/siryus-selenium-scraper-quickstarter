@@ -30,6 +30,7 @@
         "docker",
         "init_manual",
         "web driver",
-        "controller sample"
+        "controller sample",
+        "requirements"
     ]
 }
