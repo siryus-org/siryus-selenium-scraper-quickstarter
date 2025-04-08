@@ -18,6 +18,7 @@ def controller_sample(data):
         message = "ok"
 
         logging.info("|| Get initial page")
+        # You can choose betwen Chrome (default ) or firefox. Example: get_page('Firefox')
         driver = get_page()
 
         # TODO: decominate to use login
