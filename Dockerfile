@@ -29,8 +29,8 @@ USER root
 # Copy the source code after installing units
 COPY . .
 
-# Exposes the port of Gunicorn (default 8000)
-EXPOSE 8000
+# Exposes the port of Gunicorn (default 3000)
+EXPOSE 3000
 
 # Gunicorn executes with 4 worlds in production mode
-CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:8000", "--timeout", "600", "main:app"]
+CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:3000", "--timeout", "600", "main:app"]
