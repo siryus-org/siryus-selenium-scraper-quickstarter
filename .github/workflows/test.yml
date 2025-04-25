@@ -23,6 +23,15 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
 
-      - name: Run Docker Compose
+      - name: Start Docker Compose in detached mode
         run: |
-          docker-compose up --build --exit-code-from server
+          docker-compose up --build -d
+
+      - name: Run tests
+        run: |
+          # Aquí puedes ejecutar tus pruebas o validaciones
+          curl -f http://localhost:8080/ || exit 1
+
+      - name: Stop Docker Compose
+        run: |
+          docker-compose down
