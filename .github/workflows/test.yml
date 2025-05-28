@@ -23,6 +23,9 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
 
+      - name: Copiar .env.example como .env
+        run: cp .env.example .env
+
       - name: Start Docker Compose in detached mode
         run: |
           docker-compose up --build -d
