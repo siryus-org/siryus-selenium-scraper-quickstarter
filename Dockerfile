@@ -48,6 +48,7 @@ RUN apt-get update && apt-get install -y wget \
 # Copia solo los archivos compilados y recursos necesarios
 COPY --from=builder /app .
 # Copia el .env SOLO en la imagen final, después de todo lo demás
+# IMPORTANTE: El archivo .env debe existir en el contexto de build (la GitHub Action lo crea antes del build)
 COPY .env /app/.env
 
 # Exponer el puerto
