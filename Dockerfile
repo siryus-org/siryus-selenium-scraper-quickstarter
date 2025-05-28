@@ -47,6 +47,8 @@ RUN apt-get update && apt-get install -y wget \
 
 # Copia solo los archivos compilados y recursos necesarios
 COPY --from=builder /app .
+# Copia el .env SOLO en la imagen final, después de todo lo demás
+COPY .env /app/.env
 
 # Exponer el puerto
 EXPOSE 3000

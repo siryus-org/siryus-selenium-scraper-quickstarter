@@ -1,7 +1,10 @@
 import os
 import platform
 from dotenv import load_dotenv
-load_dotenv()
+
+# Carga el .env desde la ruta absoluta
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
+
 # Global variables
 STAGE = os.getenv("STAGE") or 'staging'
 VALID_TOKEN = os.getenv("VALID_TOKEN") or 'sample'
