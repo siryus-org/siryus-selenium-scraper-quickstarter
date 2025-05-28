@@ -70,8 +70,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          IMAGE_NAME="${{ env.IMAGE_NAME }}"
-          IMAGE_NAME="${IMAGE_NAME,,}" # a minúsculas
+          # Extrae solo el nombre del repo y lo pone en minúsculas
+          IMAGE_NAME="$(basename "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')"
           gh api --method PATCH \
             -H "Accept: application/vnd.github+json" \
             /user/packages/container/${IMAGE_NAME}/visibility \
