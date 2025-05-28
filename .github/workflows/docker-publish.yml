@@ -3,8 +3,10 @@ name: Create and publish a Docker image
 
 # Configures this workflow to run every time a change is pushed to the branch called `release`.
 on:
-  push:
-    branches: main
+  workflow_run:
+    workflows: ["Test"]
+    types:
+      - completed
 
 # Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
 env:
@@ -14,6 +16,7 @@ env:
 # There is a single job in this workflow. It's configured to run on the latest available version of Ubuntu.
 jobs:
   build-and-push-image:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
     permissions:
@@ -22,6 +25,10 @@ jobs:
       attestations: write
       id-token: write
       #
+    env:
+      STAGE: ${{ secrets.STAGE }}
+      VALID_TOKEN: ${{ secrets.VALID_TOKEN }}
+      URL: ${{ secrets.URL }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
