@@ -1,136 +1,240 @@
-# Selenium Scraper Starter
+# 🚀 Selenium Scraper Quickstarter
 
-This repository provides a foundation for building robust and scalable web scrapers using Selenium and Flask. It emphasizes best practices including environment management, configuration with Docker, and a well-structured project layout.
+**Selenium Scraper Quickstarter** is a professional template for building robust and scalable web scrapers using Selenium and Flask, ready for local development, Docker containers, and cloud deployment.
 
-## Key Features
+---
 
-- **Selenium Automation:** Efficiently interact with dynamic webpages using Selenium's browser automation capabilities.
-- **Flask Backend:** Create a RESTful API with Flask to manage scraper execution, authorization, and logging.
-- **Bearer Authentication:** Implement a secure mechanism for API access using bearer tokens.
-- **Environment Management:** Facilitate deployment across different environments (production, staging) using environment variables.
-- **Docker Configuration:** Streamline containerization for a consistent and portable development experience.
-- **Logging System:** Track scraper activities and errors for debugging and monitoring.
+## ✨ Main Features
 
-## Local Setup - ``Dev Container`` (recomended)
+- **Selenium Automation:** Advanced interaction with dynamic web pages.
+- **RESTful API with Flask:** Secure and customizable endpoint exposure.
+- **Bearer Authentication:** Security via configurable tokens.
+- **Environment Management:** Environment variables for production, testing, and staging.
+- **Docker & Codespaces Support:** Ready for containers and cloud development.
+- **Logging System:** Activity and error logging for auditing and debugging.
+- **Automated Downloads:** File and temporary directory management.
+- **Extensible & Modular:** Clean architecture for easily adding actions and endpoints.
 
-To set up the development environment using Dev Container, follow these steps:
+---
 
-1. Install [Visual Studio Code](https://code.visualstudio.com/) and the [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
-2. Install [Docker](https://www.docker.com/)
-3. Clone the repository to your local machine.
-4. Open the project in Visual Studio Code.
-5. When prompted, select "Reopen in Container" to automatically build and open the project inside the Dev Container.
-    - **.env file:** Create a `.env` file to store environment variables (refer to `.env.example` for guidance).
-
-This setup will ensure all necessary dependencies are installed and provide an isolated environment tailored for development.
-
-## Cloud Setup - ``GitHub Codespaces``
-
-If you prefer to use GitHub Codespaces, follow these steps:
-
-1. Navigate to the repository on [GitHub](https://github.com/Ismola/selenium-scraper-quickstarter).
-2. Click the green "Code" button, then select "Open with Codespaces."
-3. GitHub will automatically build and open the project in a preconfigured environment.
-    - **.env file:** Create a `.env` file to store environment variables (refer to `.env.example` for guidance).
-
-Using GitHub Codespaces provides a cloud-based development environment with all dependencies pre-configured and ready to use.
-
-## Local Setup - ``MANUAL``
-
-### Prerequisites
-
-Before diving in, ensure you have the following tools installed:
-
-- **Python (version 3.x recommended):** Download and install from <https://www.python.org/downloads/>.
-- **.env file:** Create a `.env` file to store environment variables (refer to `.env.example` for guidance).
-- **HTTP Client (Postman recommended):** Use an HTTP client like <https://www.postman.com/> to send requests to the Flask API.
-- **Chrome Browser:** Download and install the latest version from <https://www.google.com/chrome/>.
-
-### Create a Virtual Environment
-
-We use a module named virtualenv which is a tool to create **isolated Python environments**. Virtualenv creates a folder that contains all the necessary executables to use the packages that a Python project would need.
+## 📁 Project Structure
 
 ```bash
-python3 -m venv <whatever_virtual_environment_name>
+├── main.py                   # Flask entry point
+├── actions/                  # Scraping and automation logic
+├── controller/               # Endpoint controllers
+├── temp_downloads/           # Temporary downloads
+├── utils/                    # Utilities and configuration
+├── requirements.txt          # Python dependencies
+├── Dockerfile                # Production-ready Docker image
+├── .env.example              # Example environment configuration
+└── README.md                 # This file
 ```
 
-### Activate virtual environment
+---
+
+## ⚙️ Environment Variables
+
+Configure scraper behavior via variables in the `.env` file. Copy `.env.example` to `.env` and customize as needed.
+
+| Variable           | Required | Possible Values / Example                | Description                                                        |
+|--------------------|----------|------------------------------------------|--------------------------------------------------------------------|
+| `STAGE`            | Yes      | `production`, `testing`, `staging`       | Execution environment (affects visibility and real actions)        |
+| `VALID_TOKEN`      | Yes      | `sample`                                 | Bearer token to authenticate requests                              |
+| `URL`              | Yes      | `https://www.google.com/`                | Base URL the scraper connects to                                   |
+| `HEADLESS_MODE`    | Optional | `auto`, `True`, `False`                  | Controls if the browser is visible or headless                     |
+| `AUTO_DELETE_LOGS` | Optional | `True`, `False`                          | Automatically deletes old logs                                     |
+
+> **Note:** See `.env.example` for more details and recommendations.
+
+---
+
+## 🏁 Quick Start
+
+### 1. Clone the repository
 
 ```bash
-source <whatever_virtual_environment_name>/bin/activate   # for Unix/Linux
-.\<whatever_virtual_environment_name>\Scripts\activate    # for Windows
+git clone https://github.com/Ismola/selenium-scraper-quickstarter.git
+cd selenium-scraper-quickstarter
 ```
 
-### Install project libraries
+### 2. Set up your environment
+
+- Copy `.env.example` to `.env` and edit as needed.
+- Ensure you have Python 3.x and Chrome installed.
+
+### 3. Choose your development mode
+
+#### Option A: Dev Container (Recommended)
+
+1. Install [VS Code](https://code.visualstudio.com/) and the **Dev Containers** extension.
+2. Install [Docker](https://www.docker.com/).
+3. Open the project in VS Code and select "Reopen in Container".
+
+#### Option B: GitHub Codespaces
+
+1. Click "Code" > "Open with Codespaces" on GitHub.
+2. Wait for the environment to be set up automatically.
+
+#### Option C: Manual
 
 ```bash
-pip install -r requirements.txt  # Works for both Unix/Linux and Windows
+python3 -m venv venv
+source venv/bin/activate  # or .\venv\Scripts\activate on Windows
+pip install -r requirements.txt
 ```
 
-## Run app
+---
+
+## ▶️ Running
+
+### Local
 
 ```bash
-python3 main.py  # for Unix/Linux
-python main.py   # for Windows
+python3 main.py
 ```
 
-Now, the server is accessible at `http://localhost3000`
-
-### First Call
-
-![First Call](./readmeImages/firstcall.png)
-
-![Auth Call](./readmeImages/authcall.png)
-
-### Make your firsts changes
-
-1. The first thing is to add your .env file. You can add a invented bearer token to get started
-
-2. Then configure the base url in the utils/config.py file
-
-3. In order to work on your project, you must add an endpoint to main.py.
-
-4. Next, create a controller, and add the different web actions on the controller. It is recommended to do actions with few steps, to be able to modularize your code, and not repeat code in the future.
-
-## Project Structure
+### Docker
 
 ```bash
-├─── main.py                   # Entry point for the Flask application
-├─── .vscode                   # Configuration for Visual Studio Code (optional)
-├─── actions                   # Contains scraper actions (logic for data extraction)
-├─── controller                # Functions handling API requests
-├─── temp_downloads            # Temporary files created during scraping
-└─── utils                     # Reusable helper functions
+docker build -t selenium-scraper .
+docker run --env-file .env -p 3000:3000 selenium-scraper
 ```
 
-## Bibliography
-
-- [Selenium Web Page](https://selenium-python.readthedocs.io/): Main bot technology
-- [Selenium Tutorial](https://youtube.com/playlist?list=PLheIVUbpfWZ17lCcHnoaa1RD59juFR06C&si=TTyB-dQQFl38tXO2)
-- [Flask](https://flask.palletsprojects.com/en/3.0.x/): Core technology for creating a REST API server
-
-## Commond Errors
+### Production (Gunicorn)
 
 ```bash
-ERROR: local variable 'driver' referenced before assignment
+gunicorn -w 2 -b 0.0.0.0:3000 --timeout 600 main:app
 ```
 
-`It may be because the script are taking the chromedriver from the wrong place. Every time Chrome and Chromedriver's versions are not in harmony, this error occurs`
+---
 
-### Steps
+## 🔗 API Usage
 
-#### 1. Copy the file [utils/init_manual.py](utils/init_manual.py). In python terminal paste the content. If there are any errors, continue to the next step
+### Authentication
 
-#### 2. To install the chromedriver again, delete this folder. In this folder is where the files that installs Python del Chromedriver are saved
+All protected routes require the header:
+
+```
+Authorization: Bearer <VALID_TOKEN>
+```
+
+### Default Endpoints
+
+| Method | Route      | Description                        |
+|--------|-----------|------------------------------------|
+| GET    | `/`        | Server health check                |
+| GET    | `/sample`  | Example endpoint (modifiable)      |
+
+#### Example with `curl`:
 
 ```bash
-rm -rf ~/.wdm
+curl -H "Authorization: Bearer sample" http://localhost:3000/sample
 ```
 
-## Bring changes from the template
+---
+
+## 🛠️ Customization & Extension
+
+1. **Add your token and URL in `.env`.**
+2. **Configure the base URL in `utils/config.py` if needed.**
+3. **Create new endpoints in `main.py`.**
+4. **Implement scraping logic in `actions/` and controllers in `controller/`.**
+5. **Use utilities from `utils/` for logging, configuration, and helpers.**
+
+---
+
+## 🧩 Architecture & Flow
+
+1. **main.py:** Defines endpoints and starts Flask.
+2. **controller/**: Receives the request, validates, and calls the action.
+3. **actions/**: Executes scraping logic (Selenium).
+4. **utils/**: Configuration, helpers, and shared utilities.
+5. **temp_downloads/**: Stores temporarily downloaded files.
+
+---
+
+## 🚢 Deployment
+
+There are several recommended ways to deploy your scraper in a production or staging environment:
+
+### 1. Gunicorn (Recommended for Production)
+
+The project is ready to be served using [Gunicorn](https://gunicorn.org/), a robust WSGI HTTP server for Python web applications. This is the method used in the provided Dockerfile.
+
+**To run with Gunicorn manually:**
 
 ```bash
-git remote add template https://github.com/Ismola/selenium-scraper-quickstarter
-git fetch template
-git merge template/main --allow-unrelated-histories
+gunicorn -w 2 -b 0.0.0.0:3000 --timeout 600 main:app
 ```
+
+- `-w 2`: Number of worker processes (adjust as needed).
+- `-b 0.0.0.0:3000`: Binds to all interfaces on port 3000.
+- `--timeout 600`: Increases timeout for long scraping tasks.
+
+### 2. Docker (Recommended for Consistency)
+
+You can deploy the application using Docker, ensuring all dependencies and environment settings are consistent across environments.
+
+**Build and run the container:**
+
+```bash
+docker build -t selenium-scraper .
+docker run --env-file .env -p 3000:3000 selenium-scraper
+```
+
+### 3. Docker Compose (For Multi-Service and Volume Management)
+
+The repository includes a `compose.yaml` file for [Docker Compose](https://docs.docker.com/compose/), which simplifies running the application with persistent storage and optional SSL certificates.
+
+**To deploy with Docker Compose:**
+
+```bash
+docker compose up --build
+```
+
+#### Volumes in Compose
+
+- `./logs:/app/logs`: Persists application logs on your host machine for easier debugging and auditing.
+- `./temp_downloads:/app/temp_downloads`: Stores downloaded files outside the container, so you don't lose data on container restarts.
+- `./certs:/app/certs`: (Optional) Mounts SSL certificates for HTTPS support. Comment out this line if not using SSL.
+
+> **Tip:** You can customize the exposed ports and volume paths in `compose.yaml` as needed for your infrastructure.
+
+---
+
+## 🐞 Troubleshooting
+
+### Common error: `local variable 'driver' referenced before assignment`
+
+- This may be due to incompatibility between Chrome and Chromedriver.
+- Quick fix:
+    1. Delete the drivers folder: `rm -rf ~/.wdm`
+    2. Restart the environment.
+
+### Other issues
+
+- Ensure environment variables are correctly set.
+- Check generated logs for more details.
+
+---
+
+## 📚 Resources & Bibliography
+
+- [Selenium Python Docs](https://selenium-python.readthedocs.io/)
+- [Flask Docs](https://flask.palletsprojects.com/en/3.0.x/)
+- [Selenium Tutorial (YouTube)](https://youtube.com/playlist?list=PLheIVUbpfWZ17lCcHnoaa1RD59juFR06C)
+
+---
+
+## 🤝 Contributions
+
+Pull requests and suggestions are welcome! Please open an issue to discuss major changes.
+
+---
+
+## 📝 License
+
+MIT License © Ismola
+
+---
