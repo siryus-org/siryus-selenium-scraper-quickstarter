@@ -203,6 +203,67 @@ docker compose up --build
 
 ---
 
+## ⚙️ GitHub Actions CI/CD
+
+This project includes a preconfigured GitHub Actions workflow for continuous integration and automated Docker image publishing. You can find the workflow files in `.github/workflows/`.
+
+### Included Workflows
+
+- **Test (`test.yml`):**
+  - Runs on every push to `main` and on pull requests.
+  - Builds the Docker image and starts the application using Docker Compose.
+  - Ensures the application starts correctly in a containerized environment.
+  - You can add your own test steps (e.g., API calls, integration tests) inside this workflow.
+
+- **Docker Publish (`docker-publish.yml`):**
+  - Triggers automatically after a successful run of the `Test` workflow.
+  - Builds and pushes the Docker image to GitHub Container Registry (`ghcr.io`).
+  - Uses repository secrets for sensitive environment variables (`STAGE`, `VALID_TOKEN`, `URL`).
+
+### How to Customize
+
+- **Add/Modify Tests:**
+  - Edit `.github/workflows/test.yml`.
+  - Uncomment and adapt the `Run tests` step to include your own test scripts or API checks.
+  - Example:
+    ```yaml
+    - name: Run tests
+      run: |
+        curl -f http://localhost:5008/sample || exit 1
+    ```
+
+- **Change Environment Variables for CI/CD:**
+  - Go to your repository's **Settings > Secrets and variables > Actions**.
+  - Add or update secrets like `STAGE`, `VALID_TOKEN`, `URL` as needed.
+  - These will be injected into the Docker image during the build and publish process.
+
+> **⚠️ Important:**  
+> If you publish the Docker image to a public registry, any environment variables (such as `STAGE`, `VALID_TOKEN`, `URL`) that are injected during the build process may be visible to anyone who pulls the image.  
+> **Never use production secrets or sensitive tokens in public images.**  
+> For private deployments, always use private registries and restrict access to your images.
+
+- **Change Docker Registry or Image Name:**
+  - Edit the `REGISTRY` and `IMAGE_NAME` variables in `.github/workflows/docker-publish.yml`.
+
+- **Triggering the Publish Workflow:**
+  - By default, the Docker image is published only after a successful run of the `Test` workflow.
+  - You can change the trigger to run on other branches or events by editing the `on:` section.
+
+### Example: Adding a Custom Test
+
+To add a test that checks the `/sample` endpoint:
+
+```yaml
+# In .github/workflows/test.yml
+- name: Run sample endpoint test
+  run: |
+    curl -H "Authorization: Bearer sample" http://localhost:5008/sample
+```
+
+> **Tip:** Adjust the port if you change the exposed port in `compose.yaml`.
+
+---
+
 ## 🐞 Troubleshooting
 
 ### Common error: `local variable 'driver' referenced before assignment`
