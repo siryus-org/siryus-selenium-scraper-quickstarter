@@ -16,7 +16,5 @@ services:
     volumes:
       - ./logs:/app/logs
       - ./temp_downloads:/app/temp_downloads
-      
-      - ./certs:/app/certs #Comment this line if is necessary
     restart: unless-stopped
     

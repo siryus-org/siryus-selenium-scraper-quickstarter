@@ -185,7 +185,7 @@ docker run --env-file .env -p 3000:3000 selenium-scraper
 
 ### 3. Docker Compose (For Multi-Service and Volume Management)
 
-The repository includes a `compose.yaml` file for [Docker Compose](https://docs.docker.com/compose/), which simplifies running the application with persistent storage and optional SSL certificates.
+The repository includes a `compose.yaml` file for [Docker Compose](https://docs.docker.com/compose/), which simplifies running the application with persistent storage
 
 **To deploy with Docker Compose:**
 
@@ -197,7 +197,6 @@ docker compose up --build
 
 - `./logs:/app/logs`: Persists application logs on your host machine for easier debugging and auditing.
 - `./temp_downloads:/app/temp_downloads`: Stores downloaded files outside the container, so you don't lose data on container restarts.
-- `./certs:/app/certs`: (Optional) Mounts SSL certificates for HTTPS support. Comment out this line if not using SSL.
 
 > **Tip:** You can customize the exposed ports and volume paths in `compose.yaml` as needed for your infrastructure.
 
