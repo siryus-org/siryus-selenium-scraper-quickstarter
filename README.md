@@ -263,6 +263,13 @@ To add a test that checks the `/sample` endpoint:
 
 ---
 
+## 🤖 Instrucciones personalizadas para GitHub Copilot
+
+Este proyecto utiliza instrucciones personalizadas para Copilot desde [Ismola/personal-copilot-instructions](https://github.com/Ismola/personal-copilot-instructions).  
+Cada vez que se inicia el devcontainer, se clonan y actualizan automáticamente en `.github/instructions`.
+
+---
+
 ## 🐞 Troubleshooting
 
 ### Common error: `local variable 'driver' referenced before assignment`
