@@ -1,10 +1,7 @@
 name: Test
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+  workflow_call:
 
 jobs:
   docker-compose:
@@ -35,6 +32,9 @@ jobs:
       #     # Aquí puedes ejecutar tus pruebas o validaciones
       #     curl -f http://localhost:8080/ || exit 1
 
+      - name: Stop Docker Compose
+        run: |
+          docker-compose down
       - name: Stop Docker Compose
         run: |
           docker-compose down
