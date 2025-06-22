@@ -27,10 +27,16 @@ jobs:
         run: |
           docker-compose up --build -d
 
-      # - name: Run tests
-      #   run: |
-      #     # Aquí puedes ejecutar tus pruebas o validaciones
-      #     curl -f http://localhost:8080/ || exit 1
+      - name: Test endpoint raíz con curl
+        run: |
+          sleep 5  # Espera a que el contenedor esté listo
+          curl -f http://localhost:3000/ || (docker-compose logs && exit 1)
+
+      - name: Run pytest
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+          pytest --maxfail=1 --disable-warnings -v
 
       - name: Stop Docker Compose
         run: |

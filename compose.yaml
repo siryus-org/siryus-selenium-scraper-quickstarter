@@ -12,7 +12,7 @@ services:
     build:
       context: .
     ports:
-      - 5008:3000
+      - 3000:3000
     volumes:
       - ./logs:/app/logs
       - ./temp_downloads:/app/temp_downloads
