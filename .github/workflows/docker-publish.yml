@@ -11,18 +11,20 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  smoke:
+    uses: ./.github/workflows/docker-smoke.yml
   test:
-    uses: ./.github/workflows/test.yml
+    uses: ./.github/workflows/ci-test.yml
+    needs: smoke
 
   build-and-push-image:
-    needs: test
+    needs: [smoke, test]
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
       attestations: write
       id-token: write
-      #
     env:
       STAGE: ${{ secrets.STAGE }}
       VALID_TOKEN: ${{ secrets.VALID_TOKEN }}
@@ -63,7 +65,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
       
-      # This step generates an artifact attestation for the image, which is an unforgeable statement about where and how it was built. It increases supply chain security for people who consume the image. For more information, see [Using artifact attestations to establish provenance for builds](/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).
+      # This step generates an artifact attestation for the image, which is an unforgeable statement about where and how it was built. It increases supply chain security for people who consume the image. For more information, see [Using artifact attestation to establish provenance for builds](/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v2
         with:
