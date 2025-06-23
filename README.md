@@ -41,11 +41,12 @@ Configure scraper behavior via variables in the `.env` file. Copy `.env.example`
 |--------------------|----------|------------------------------------------|--------------------------------------------------------------------|
 | `STAGE`            | Yes      | `production`, `testing`, `staging`       | Execution environment (affects visibility and real actions)        |
 | `VALID_TOKEN`      | Yes      | `sample`                                 | Bearer token to authenticate requests                              |
-| `URL`              | Yes      | `https://www.google.com/`                | Base URL the scraper connects to                                   |
 | `HEADLESS_MODE`    | Optional | `auto`, `True`, `False`                  | Controls if the browser is visible or headless                     |
 | `AUTO_DELETE_LOGS` | Optional | `True`, `False`                          | Automatically deletes old logs                                     |
 
 > **Note:** See `.env.example` for more details and recommendations.
+> **Base URL:** The base URL is now set in the constant `BASE_URL` inside `utils/config.py`.  
+> To change the target site, edit the value of `BASE_URL` in that file.
 
 ---
 
@@ -62,6 +63,7 @@ cd selenium-scraper-quickstarter
 
 - Copy `.env.example` to `.env` and edit it as needed.
 - Make sure you have Python 3.x and Google Chrome installed.
+- **Set the base URL:** Edit the `BASE_URL` constant in `utils/config.py` to point to your target website.
 
 ### 3. Choose your development mode
 
@@ -113,11 +115,11 @@ gunicorn -w 2 -b 0.0.0.0:3000 --timeout 600 main:app
 
 - **Change environment variables for CI/CD:**
   - Go to **Settings > Secrets and variables > Actions** in your GitHub repository.
-  - Add or update secrets like `STAGE`, `VALID_TOKEN`, `URL` as needed.
+  - Add or update secrets like `STAGE`, `VALID_TOKEN` as needed.
   - These will be injected into the Docker image during the build and publish process.
 
 > **⚠️ Important:**  
-> If you publish the Docker image to a public registry, any environment variable (such as `STAGE`, `VALID_TOKEN`, `URL`) injected during build may be visible to anyone who downloads the image.  
+> If you publish the Docker image to a public registry, any environment variable (such as `STAGE`, `VALID_TOKEN`) injected during build may be visible to anyone who downloads the image.  
 > **Never use production secrets or sensitive tokens in public images.**  
 > For private deployments, always use private registries and restrict access to your images.
 
@@ -159,8 +161,8 @@ curl -H "Authorization: Bearer sample" http://localhost:3000/sample
 
 ## 🛠️ Customization & Extension
 
-1. **Add your token and URL in `.env`.**
-2. **Configure the base URL in `utils/config.py` if needed.**
+1. **Add your token in `.env`.**
+2. **Set the base URL in `utils/config.py` by editing the `BASE_URL` constant.**
 3. **Create new endpoints in `main.py`.**
 4. **Implement scraping logic in `actions/` and controllers in `controller/`.**
 5. **Use utilities from `utils/` for logging, configuration, and helpers.**
@@ -172,7 +174,8 @@ curl -H "Authorization: Bearer sample" http://localhost:3000/sample
 1. **main.py:** Defines endpoints and starts Flask.
 2. **controller/**: Receives the request, validates, and calls the action.
 3. **actions/**: Executes scraping logic (Selenium).
-4. **utils/**: Configuration, helpers, and shared utilities.
+4. **utils/**: Configuration, helpers, and shared utilities.  
+   - **BASE_URL** is defined in `utils/config.py`.
 5. **temp_downloads/**: Stores temporarily downloaded files.
 
 ---

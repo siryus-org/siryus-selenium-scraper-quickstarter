@@ -1,6 +1,4 @@
-from utils.config import STAGE
 # Imports from external libraries
-import ssl
 # Flask imports and their extensions
 from flask import Flask
 # Imports of own modules

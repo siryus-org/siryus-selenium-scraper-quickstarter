@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 
-from utils.config import DOWNLOAD_DIR, URL
+from utils.config import DOWNLOAD_DIR, BASE_URL
 
 load_dotenv()
 stage = os.getenv("STAGE")
@@ -56,6 +56,6 @@ pref_opt = {
 options.add_experimental_option("prefs", pref_opt)
 service = Service(route)
 driver = webdriver.Chrome(service=service, options=options)
-driver.get(URL)
+driver.get(BASE_URL)
 wait = get_wait(driver)
 wait = WebDriverWait(driver, 4)

@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from utils.config import PAGE_MAX_TIMEOUT, URL, DOWNLOAD_DIR, has_display
+from utils.config import PAGE_MAX_TIMEOUT, BASE_URL, DOWNLOAD_DIR, has_display
 
 import psutil
 
@@ -33,7 +33,7 @@ def get_page(browser = 'chrome'):
     else:
         driver = get_driver_chrome()
     logging.info('Getting URL')
-    driver.get(URL)
+    driver.get(BASE_URL)
     return driver
 
 
