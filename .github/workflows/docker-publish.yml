@@ -15,7 +15,6 @@ jobs:
     uses: ./.github/workflows/docker-smoke.yml
   test:
     uses: ./.github/workflows/ci-test.yml
-    needs: smoke
 
   build-and-push-image:
     needs: [smoke, test]
