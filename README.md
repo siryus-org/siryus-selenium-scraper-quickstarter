@@ -60,8 +60,8 @@ cd selenium-scraper-quickstarter
 
 ### 2. Set up your environment
 
-- Copy `.env.example` to `.env` and edit as needed.
-- Ensure you have Python 3.x and Chrome installed.
+- Copy `.env.example` to `.env` and edit it as needed.
+- Make sure you have Python 3.x and Google Chrome installed.
 
 ### 3. Choose your development mode
 
@@ -109,13 +109,36 @@ gunicorn -w 2 -b 0.0.0.0:3000 --timeout 600 main:app
 
 ---
 
+## ⚙️ CI/CD and Workflow Customization
+
+- **Change environment variables for CI/CD:**
+  - Go to **Settings > Secrets and variables > Actions** in your GitHub repository.
+  - Add or update secrets like `STAGE`, `VALID_TOKEN`, `URL` as needed.
+  - These will be injected into the Docker image during the build and publish process.
+
+> **⚠️ Important:**  
+> If you publish the Docker image to a public registry, any environment variable (such as `STAGE`, `VALID_TOKEN`, `URL`) injected during build may be visible to anyone who downloads the image.  
+> **Never use production secrets or sensitive tokens in public images.**  
+> For private deployments, always use private registries and restrict access to your images.
+
+- **Change Docker registry or image name:**
+  - Edit the `REGISTRY` and `IMAGE_NAME` variables in `.github/workflows/docker-publish.yml`.
+
+- **Trigger the publish workflow:**
+  - By default, the Docker image is published only after a successful run of the `Test` workflow.
+  - You can change the trigger to run on other branches or events by editing the `on:` section.
+
+> **Tip:** Adjust the port if you change the exposed port in `compose.yaml`.
+
+---
+
 ## 🔗 API Usage
 
 ### Authentication
 
 All protected routes require the header:
 
-```
+```curl
 Authorization: Bearer <VALID_TOKEN>
 ```
 
@@ -126,7 +149,7 @@ Authorization: Bearer <VALID_TOKEN>
 | GET    | `/`        | Server health check                |
 | GET    | `/sample`  | Example endpoint (modifiable)      |
 
-#### Example with `curl`:
+#### Example with `curl`
 
 ```bash
 curl -H "Authorization: Bearer sample" http://localhost:3000/sample
@@ -208,65 +231,60 @@ This project includes a preconfigured GitHub Actions workflow for continuous int
 
 ### Included Workflows
 
-- **Test (`test.yml`):**
-  - Runs on every push to `main` and on pull requests.
-  - Builds the Docker image and starts the application using Docker Compose.
-  - Ensures the application starts correctly in a containerized environment.
-  - You can add your own test steps (e.g., API calls, integration tests) inside this workflow.
+- **Docker Smoke (`docker-smoke.yml`):**
+  - Builds the Docker image and verifies that the application starts correctly using Docker Compose.
+  - Performs a smoke test by accessing the root endpoint (`/`) to ensure the container responds.
 
-- **Docker Publish (`docker-publish.yml`):**
-  - Triggers automatically after a successful run of the `Test` workflow.
-  - Builds and pushes the Docker image to GitHub Container Registry (`ghcr.io`).
-  - Uses repository secrets for sensitive environment variables (`STAGE`, `VALID_TOKEN`, `URL`).
+- **CI Test Suite (`ci-test.yml`):**
+  - Runs after the smoke test.
+  - Installs dependencies and runs automated tests with `pytest` inside the Docker Compose environment.
+  - Ensures the application passes tests before continuing the pipeline.
 
-### How to Customize
+- **Docker Build & Publish (`docker-publish.yml`):**
+  - Runs only if the previous workflows are successful.
+  - Builds and publishes the Docker image to GitHub Container Registry (`ghcr.io`).
+  - Uses environment variables and secrets configured in the repository.
 
-- **Add/Modify Tests:**
-  - Edit `.github/workflows/test.yml`.
-  - Uncomment and adapt the `Run tests` step to include your own test scripts or API checks.
-  - Example:
-    ```yaml
-    - name: Run tests
-      run: |
-        curl -f http://localhost:5008/sample || exit 1
-    ```
+> ⚙️ You can customize or extend these workflows by editing the files in `.github/workflows/` as needed for your CI/CD requirements.
 
-- **Change Environment Variables for CI/CD:**
-  - Go to your repository's **Settings > Secrets and variables > Actions**.
-  - Add or update secrets like `STAGE`, `VALID_TOKEN`, `URL` as needed.
-  - These will be injected into the Docker image during the build and publish process.
+## 🧪 Automated Testing
 
-> **⚠️ Important:**  
-> If you publish the Docker image to a public registry, any environment variables (such as `STAGE`, `VALID_TOKEN`, `URL`) that are injected during the build process may be visible to anyone who pulls the image.  
-> **Never use production secrets or sensitive tokens in public images.**  
-> For private deployments, always use private registries and restrict access to your images.
+The project includes automated tests located in the `test/` folder, using `pytest` and Flask's test client.
 
-- **Change Docker Registry or Image Name:**
-  - Edit the `REGISTRY` and `IMAGE_NAME` variables in `.github/workflows/docker-publish.yml`.
+### 📂 Test Structure
 
-- **Triggering the Publish Workflow:**
-  - By default, the Docker image is published only after a successful run of the `Test` workflow.
-  - You can change the trigger to run on other branches or events by editing the `on:` section.
+- `test/test_main.py`: Tests for the main endpoints defined in `main.py`.
 
-### Example: Adding a Custom Test
+### ▶️ How to run the tests
 
-To add a test that checks the `/sample` endpoint:
+1. Install dependencies if you haven't already:
 
-```yaml
-# In .github/workflows/test.yml
-- name: Run sample endpoint test
-  run: |
-    curl -H "Authorization: Bearer sample" http://localhost:5008/sample
-```
+   ```bash
+   pip install -r requirements.txt
+   pip install pytest
+   ```
 
-> **Tip:** Adjust the port if you change the exposed port in `compose.yaml`.
+2. Run the tests:
+
+   ```bash
+   pytest --maxfail=1 --disable-warnings -v
+   ```
+
+> 💡 **Tip:** You can also run the tests automatically in the CI/CD flow with GitHub Actions.
+
+### ✏️ How to modify or add tests?
+
+- Edit or add files in the `test/` folder following the example in `test_main.py`.
+- Use the Flask client to simulate HTTP requests and validate responses.
+- To test new endpoints, create functions starting with `test_` and use the `client` fixture.
+- See the [pytest documentation](https://docs.pytest.org/) for more options and best practices.
 
 ---
 
-## 🤖 Instrucciones personalizadas para GitHub Copilot
+## 🤖 Custom instructions for GitHub Copilot
 
-Este proyecto utiliza instrucciones personalizadas para Copilot desde [Ismola/personal-copilot-instructions](https://github.com/Ismola/personal-copilot-instructions).  
-Cada vez que se inicia el devcontainer, se clonan y actualizan automáticamente en `.github/instructions`.
+This project uses custom Copilot instructions from [Ismola/personal-copilot-instructions](https://github.com/Ismola/personal-copilot-instructions).  
+Each time the devcontainer starts, they are cloned and updated automatically in `.github/instructions`.
 
 ---
 
