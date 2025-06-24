@@ -4,6 +4,7 @@ from controller.controller_sample import controller_sample
 from utils.handle_request import handle_request_endpoint
 from utils.config import STAGE
 
+
 def create_app():
     app = Flask(__name__)
 
@@ -25,8 +26,11 @@ def create_app():
 
     return app
 
+
+# Instancia global para Gunicorn (debe estar fuera del if)
+app = create_app()
+
 if __name__ == "__main__":
-    app = create_app()
     debug_mode = STAGE != "production"
     port = int(os.getenv("PORT", 3000))
     app.run(debug=debug_mode, host='0.0.0.0', port=port)
