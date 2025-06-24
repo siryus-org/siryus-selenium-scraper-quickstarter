@@ -2,6 +2,7 @@ name: 🐳 Docker Build & Smoke Test
 
 on:
   workflow_call:
+  pull_request:
 
 jobs:
   docker-compose:
