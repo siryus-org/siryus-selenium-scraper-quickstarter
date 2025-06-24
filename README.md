@@ -2,7 +2,7 @@
 
 **Selenium Scraper Quickstarter** is a professional template for building robust and scalable web scrapers using Selenium and Flask, ready for local development, Docker containers, and cloud deployment.
 
-![Nombre del flujo de trabajo](https://github.com/Ismola/selenium-scraper-quickstarter/actions/workflows/docker-publish.yml/badge.svg)
+[![🚀 Docker Build & Publish](https://github.com/Ismola/selenium-scraper-quickstarter/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/Ismola/selenium-scraper-quickstarter/actions/workflows/docker-publish.yml)
 
 ---
 
