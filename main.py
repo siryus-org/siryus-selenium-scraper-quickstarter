@@ -20,7 +20,8 @@ def create_app():
         try:
             return handle_request_endpoint(controller_sample)
         except Exception as e:
-            return jsonify(error=str(e)), 500
+            app.logger.error("An error occurred: %s", str(e))
+            return jsonify(error="An internal error has occurred."), 500
 
     # Add more endpoints here as needed
 
