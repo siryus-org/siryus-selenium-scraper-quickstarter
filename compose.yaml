@@ -1,12 +1,4 @@
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Docker Compose reference guide at
-# https://docs.docker.com/go/compose-spec-reference/
 
-# Here the instructions define your application as a service called "server".
-# This service is built from the Dockerfile in the current directory.
-# You can add other services your application may depend on here, such as a
-# database or a cache. For examples, see the Awesome Compose repository:
-# https://github.com/docker/awesome-compose
 services:
   server:
     build:
@@ -17,4 +9,12 @@ services:
       - ./logs:/app/logs
       - ./temp_downloads:/app/temp_downloads
     restart: unless-stopped
-    
+    environment:
+      - STAGE=${STAGE:-production}
+      - VALID_TOKEN=${VALID_TOKEN:-sample}
+      - AUTO_DELETE_LOGS=${AUTO_DELETE_LOGS:-True}
+      - HEADLESS_MODE=${HEADLESS_MODE:-auto}
+      - DOWNLOAD_DIR=${DOWNLOAD_DIR:-temp_downloads}
+      - PAGE_MAX_TIMEOUT=${PAGE_MAX_TIMEOUT:-7}
+      - DOWNLOAD_MAX_TIMEOUT=${DOWNLOAD_MAX_TIMEOUT:-4}
+      - BASE_URL=${BASE_URL:-https://www.google.com/}

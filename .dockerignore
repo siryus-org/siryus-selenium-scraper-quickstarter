@@ -1,34 +1,90 @@
 # Include any files or directories that you don't want to be copied to your
 # container here (e.g., local build artifacts, temporary files, etc.).
-#
-# For more help, visit the .dockerignore file reference guide at
-# https://docs.docker.com/go/build-context-dockerignore/
 
-**/.DS_Store
-**/__pycache__
-**/.venv
-**/.classpath
-**/.dockerignore
-# **/.env
+# Git and version control
 **/.git
 **/.gitignore
+**/.gitattributes
+
+# Development files
+**/.vscode
+**/.devcontainer
+**/.github
+README.md
+LICENSE
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+SECURITY.md
+
+# Python cache and build artifacts
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.Python
+**/build
+**/develop-eggs
+**/dist
+**/downloads
+**/eggs
+**/.eggs
+**/lib
+**/lib64
+**/parts
+**/sdist
+**/var
+**/wheels
+**/*.egg-info
+**/.installed.cfg
+**/*.egg
+
+# Virtual environments
+**/.venv
+**/venv
+**/env
+**/ENV
+
+# Testing
+**/.pytest_cache
+**/.coverage
+**/htmlcov
+**/.tox
+**/.nox
+
+# Logs and temporary files
+**/logs
+**/temp_downloads
+**/*.log
+**/.DS_Store
+**/Thumbs.db
+**/*~
+
+# Docker files
+**/Dockerfile*
+**/docker-compose*
+**/compose.y*ml
+**/.dockerignore
+
+# Environment files (commented out as we need .env for build)
+# **/.env
+
+# IDE and editor files
 **/.project
+**/.classpath
 **/.settings
 **/.toolstarget
 **/.vs
-**/.vscode
 **/*.*proj.user
 **/*.dbmdl
 **/*.jfm
-**/bin
-**/charts
-**/docker-compose*
-**/compose.y*ml
-**/Dockerfile*
+
+# Package managers
 **/node_modules
 **/npm-debug.log
+
+# Other
+**/bin
 **/obj
+**/charts
 **/secrets.dev.yaml
 **/values.dev.yaml
-LICENSE
-README.md

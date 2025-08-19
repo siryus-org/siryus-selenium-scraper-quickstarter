@@ -1,4 +1,5 @@
 import logging
+import os
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -13,8 +14,15 @@ def get_driver_chrome():
     options = Options()
     options = add_generic_arguments(options)
     options = add_chrome_arguments(options)
-    driver = webdriver.Chrome(service=Service(
-        ChromeDriverManager().install()), options=options)
+    
+    # In Docker/Alpine environment, use the system chromium and chromedriver
+    if os.environ.get('DOCKERIZED', False) or os.path.exists('/usr/bin/chromedriver'):
+        service = Service('/usr/bin/chromedriver')
+        options.binary_location = '/usr/bin/chromium-browser'
+    else:
+        service = Service(ChromeDriverManager().install())
+    
+    driver = webdriver.Chrome(service=service, options=options)
     return driver
 
 
