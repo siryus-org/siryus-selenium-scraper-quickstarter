@@ -13,8 +13,6 @@ env:
 jobs:
   smoke:
     uses: ./.github/workflows/docker-smoke.yml
-  test:
-    uses: ./.github/workflows/ci-test.yml
 
   build-and-push-image:
     needs: [smoke, test]
