@@ -15,7 +15,8 @@
 			"extensions": [
 				"ms-python.autopep8",
 				"donjayamanne.python-extension-pack",
-				"ismola.ismola-extension-pack"
+				"ismola.ismola-extension-pack",
+				"github.vscode-github-actions"
 			],
 			"settings": {
 				"python.terminal.activateEnvInCurrentTerminal": true,
