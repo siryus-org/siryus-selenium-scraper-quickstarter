@@ -19,7 +19,7 @@ services:
       - DOWNLOAD_MAX_TIMEOUT=${DOWNLOAD_MAX_TIMEOUT:-4}
       - BASE_URL=${BASE_URL:-https://www.google.com/}
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:3000/')"]
       interval: 30s
       timeout: 10s
       retries: 3
