@@ -1,4 +1,4 @@
-name: 🐳 Docker Build & Smoke Test
+name: 🐳 Docker Smoke Test
 
 on:
   workflow_call:
