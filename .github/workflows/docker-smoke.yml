@@ -1,4 +1,4 @@
-name: 🐳 Docker Smoke Test
+name: 🐳 Smoke Test
 
 on:
   workflow_call:
