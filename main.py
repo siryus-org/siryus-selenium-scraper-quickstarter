@@ -24,9 +24,7 @@ def create_app():
             return jsonify(error="An internal error has occurred."), 500
 
     # Add more endpoints here as needed
-
     return app
-
 
 # Instancia global para Gunicorn (debe estar fuera del if)
 app = create_app()
