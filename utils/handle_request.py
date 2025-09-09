@@ -31,4 +31,4 @@ def handle_request_endpoint(controller_function, decode_response=True):
     except Exception as e:
         error_message = str(e)
         logging.error(f"ERROR: {error_message}")
-        return jsonify({"status": "ERROR", "message": "An internal error has occurred.", "time": time.time() - start_time}), 400
+        return jsonify({"status": "ERROR", "message": "An internal error has occurred. " + error_message, "time": time.time() - start_time}), 400
