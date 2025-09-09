@@ -33,7 +33,7 @@ def get_driver_firefox():
     return driver
 
 
-def get_page(browser = 'chrome'):
+def get_page(browser = 'chrome', url = BASE_URL):
     # Return driver
     logging.info('Starting driver')
     if browser == 'firefox':
@@ -41,7 +41,7 @@ def get_page(browser = 'chrome'):
     else:
         driver = get_driver_chrome()
     logging.info('Getting URL')
-    driver.get(BASE_URL)
+    driver.get(url)
     return driver
 
 
