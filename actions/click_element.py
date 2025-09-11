@@ -28,11 +28,9 @@ def click_element(driver, element, max_attempts=3):
         messageError: Si todos los intentos de click fallan
     """
     try:
-        logging.info("🖱️ Iniciando click en elemento")
 
         # PASO 1: Intentar método básico primero (click simple)
         try:
-            logging.debug("🔄 Intentando método básico de click...")
 
             # Verificar que el elemento esté disponible
             element.is_displayed()
