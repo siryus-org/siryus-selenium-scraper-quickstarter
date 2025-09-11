@@ -14,6 +14,7 @@ DOWNLOAD_DIR = os.path.abspath("temp_downloads")
 PAGE_MAX_TIMEOUT = 7
 DOWNLOAD_MAX_TIMEOUT = 4
 BASE_URL = 'https://www.google.com/'
+LOG_FILE_DELETION_DAYS = 30
 
 
 def has_display():

@@ -1,7 +1,7 @@
 import os
 import logging
 from datetime import datetime
-from utils.config import AUTO_DELETE_LOGS, STAGE
+from utils.config import AUTO_DELETE_LOGS, STAGE, LOG_FILE_DELETION_DAYS
 from utils.error import messageError
 import re
 
@@ -42,8 +42,8 @@ def delete_old_logs():
     Elimina archivos de log antiguos y registros antiguos de archivos que sobreviven.
     
     Proceso:
-    1. Elimina archivos completos que tengan más de 1 mes (30 días)
-    2. De los archivos que sobreviven, elimina registros que tengan más de 1 mes (30 días)
+    1. Elimina archivos completos que tengan más de LOG_FILE_DELETION_DAYS días
+    2. De los archivos que sobreviven, elimina registros que tengan más de LOG_FILE_DELETION_DAYS días
     """
     try:
         current_datetime = datetime.now()
@@ -54,7 +54,7 @@ def delete_old_logs():
         files = os.listdir(logs_directory)
         surviving_files = []
 
-        # Paso 1: Eliminar archivos completos antiguos (más de 30 días)
+        # Paso 1: Eliminar archivos completos antiguos (más de LOG_FILE_DELETION_DAYS días)
         for file in files:
             # Check if the filename matches the expected format (e.g., '2025-02-26_11-13-20.log')
             match = re.match(
@@ -64,7 +64,7 @@ def delete_old_logs():
                     match.group(1), "%Y-%m-%d_%H-%M-%S")
                 difference = current_datetime - file_datetime
 
-                if difference.days > 30:
+                if difference.days > LOG_FILE_DELETION_DAYS:
                     file_path = os.path.join(logs_directory, file)
                     os.remove(file_path)
                     logging.info(f"Deleted old log file: {file}")
@@ -85,7 +85,7 @@ def delete_old_logs():
 
 def _clean_old_records_from_file(file_path, current_datetime):
     """
-    Limpia registros antiguos (más de 30 días) de un archivo de log específico.
+    Limpia registros antiguos (más de LOG_FILE_DELETION_DAYS días) de un archivo de log específico.
     Si el archivo quedaría vacío después de la limpieza, lo elimina completamente.
     
     Args:
@@ -116,8 +116,8 @@ def _clean_old_records_from_file(file_path, current_datetime):
                     # Calcular diferencia en días
                     difference = current_datetime - record_datetime
                     
-                    # Mantener registros de menos de 30 días
-                    if difference.days <= 30:
+                    # Mantener registros de menos de LOG_FILE_DELETION_DAYS días
+                    if difference.days <= LOG_FILE_DELETION_DAYS:
                         filtered_lines.append(line)
                     else:
                         records_removed += 1
@@ -164,8 +164,9 @@ def _clean_old_records_from_file(file_path, current_datetime):
 
 # CONFIGURACIÓN DE LIMPIEZA DE LOGS:
 # - AUTO_DELETE_LOGS: Si está habilitado, se ejecuta automáticamente la limpieza de logs
-# - Archivos completos: Se eliminan archivos de log que tengan más de 1 mes (30 días) de antigüedad
-# - Registros individuales: De los archivos que sobreviven, se eliminan registros más antiguos de 1 mes (30 días)
+# - LOG_FILE_DELETION_DAYS: Número de días después de los cuales se eliminan logs y registros (configurado en config.py)
+# - Archivos completos: Se eliminan archivos de log que tengan más de LOG_FILE_DELETION_DAYS días de antigüedad
+# - Registros individuales: De los archivos que sobreviven, se eliminan registros más antiguos de LOG_FILE_DELETION_DAYS días
 # - Archivos vacíos: Si un archivo queda sin contenido útil después de la limpieza, se elimina completamente
 # - Los archivos se identifican por su formato de nombre: YYYY-MM-DD_HH-MM-SS.log
 # - Los registros se identifican por su timestamp en formato: YYYY-MM-DD HH:MM:SS,milliseconds
