@@ -10,7 +10,7 @@ services:
       - ./temp_downloads:/app/temp_downloads
     restart: unless-stopped
     environment:
-      - TZ=Europe/Madrid
+      - TZ=${TZ:-Europe/Madrid}
       - STAGE=${STAGE:-production}
       - VALID_TOKEN=${VALID_TOKEN:-sample}
       - AUTO_DELETE_LOGS=${AUTO_DELETE_LOGS:-True}

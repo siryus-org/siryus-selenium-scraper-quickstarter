@@ -33,6 +33,8 @@
 	"appPort": 3000,
 	"runArgs": [
 		"--name",
-		"selenium-scrapper-quickstarter"
+		"selenium-scrapper-quickstarter",
+		"--env",
+		"TZ=Europe/Madrid"
 	]
 }
