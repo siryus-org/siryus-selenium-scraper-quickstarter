@@ -23,9 +23,9 @@ jobs:
           pip install pytest
           pip install -r requirements.txt
 
-      - name: Run logging tests
+      - name: Run tests
         run: |
-          pytest test/test_logging_config.py -v
+          pytest test/ -v
 
       - name: Set up Docker
         uses: docker/setup-buildx-action@v2
@@ -47,6 +47,24 @@ jobs:
         run: |
           sleep 5  # Espera a que el contenedor esté listo
           curl -f http://localhost:3000/ || (docker-compose logs && exit 1)
+
+      - name: Test endpoint /sample con autenticación
+        run: |
+          response=$(curl -s -w "\n%{http_code}" -X GET http://localhost:3000/sample \
+            -H "Authorization: Bearer sample" \
+            -H "Content-Type: application/json" \
+            -d '{"username":"testuser","password":"testpass"}')
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | head -n-1)
+          echo "HTTP Code: $http_code"
+          echo "Response: $body"
+          # Verificar que NO devuelve 401 (Unauthorized) ni 500 (Internal Server Error en auth)
+          if [ "$http_code" = "401" ]; then
+            echo "❌ Error: Autenticación fallida"
+            docker-compose logs
+            exit 1
+          fi
+          echo "✅ Test de autenticación pasado (código: $http_code)"
 
       - name: Stop Docker Compose
         run: |

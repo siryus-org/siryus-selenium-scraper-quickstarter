@@ -13,7 +13,7 @@ def create_app():
         """Root endpoint for health check."""
         return 'selenium-scraper-quickstarter'
 
-    # TODO: modify this endpoint to implement the desired logic
+    # No borrar para hacer pruebas
     @app.route('/sample', methods=['GET'])
     def sample_endpoint():
         """Sample endpoint demonstrating controller usage."""
@@ -23,7 +23,7 @@ def create_app():
             app.logger.error("An error occurred: %s", str(e))
             return jsonify(error="An internal error has occurred."), 500
 
-    # Add more endpoints here as needed
+    # TODO: Add more endpoints here as needed
     return app
 
 # Instancia global para Gunicorn (debe estar fuera del if)
