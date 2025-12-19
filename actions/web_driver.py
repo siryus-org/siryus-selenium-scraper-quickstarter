@@ -1,11 +1,14 @@
 import logging
 import os
+import inspect
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from utils.config import PAGE_MAX_TIMEOUT, BASE_URL, DOWNLOAD_DIR, STAGE, BROWSER_LANGUAGE, has_display
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 import psutil
 
@@ -51,8 +54,54 @@ def get_wait(driver):
 
 
 def close_driver(driver):
-    if driver:
-        driver.quit()
+    """
+    Cierra el driver de Selenium de forma segura.
+    Maneja alertas abiertas, limpia eventos de JavaScript y proporciona logging detallado.
+    
+    Args:
+        driver: Instancia del driver de Selenium
+    
+    Raises:
+        Exception: Si ocurre un error al cerrar el driver
+    """
+    try:
+        if driver:
+            logging.info("Cerrando el driver...")
+            
+            # Limpiar eventos de beforeunload para evitar diálogos
+            try:
+                logging.info("Deshabilitando eventos beforeunload...")
+                driver.execute_script("window.onbeforeunload = null;")
+                logging.debug("Eventos beforeunload deshabilitados exitosamente")
+            except Exception as js_error:
+                logging.debug(f"No se pudo deshabilitar beforeunload: {js_error}")
+            
+            # Limpiar unload handlers
+            try:
+                logging.debug("Deshabilitando eventos unload...")
+                driver.execute_script("window.onunload = null;")
+            except Exception as js_error:
+                logging.debug(f"No se pudo deshabilitar unload: {js_error}")
+            
+            # Intentar cerrar cualquier alerta abierta antes de cerrar el driver
+            try:
+                alert = WebDriverWait(driver, 1).until(EC.alert_is_present())
+                logging.info("Alerta detectada, aceptando...")
+                alert.accept()
+            except Exception as alert_error:
+                # No hay alerta presente, continuar con el cierre
+                logging.debug(f"No hay alerta abierta: {alert_error}")
+            
+
+            
+            # Cerrar todas las ventanas
+            logging.info("Cerrando todas las ventanas del driver...")
+            driver.quit()
+            logging.info("Driver cerrado exitosamente")
+        else:
+            logging.warning("El driver es None, no se puede cerrar")
+    except Exception as e:
+        logging.error(f"Error {inspect.currentframe().f_code.co_name}: {e}", exc_info=True)
 
 
 # This function, kill all chrome process
