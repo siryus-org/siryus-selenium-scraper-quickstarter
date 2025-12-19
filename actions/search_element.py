@@ -15,7 +15,7 @@ def search_element(driver, locator, wait_to_search=True, raise_exception=True):
     try:
         if wait_to_search:
             element = wait.until(lambda d:
-                        expected_conditions.presence_of_element_located(locator)(d) or
+                        # expected_conditions.presence_of_element_located(locator)(d) or
                         expected_conditions.element_to_be_clickable(locator)(d) or
                         expected_conditions.visibility_of_element_located(
                             locator)(d)
