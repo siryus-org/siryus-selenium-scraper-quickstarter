@@ -48,6 +48,9 @@ RUN apk add --no-cache --virtual .build-deps \
 
 COPY --from=builder /app .
 
+# Copy test sources so pytest can run inside the container
+COPY test ./test
+
 EXPOSE 3000
 
 ENTRYPOINT ["gunicorn", "-w", "2", "-b", "0.0.0.0:3000", "--timeout", "600", "main:app"]
