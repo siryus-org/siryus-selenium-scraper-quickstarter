@@ -136,8 +136,11 @@ def kill_driver_process():
 
 def add_generic_arguments(options):
     # Force headless mode - X11 in dev container doesn't work reliably with Chrome
-    logging.info("Running in headless mode")
-    options.add_argument("--headless=new")
+    if not has_display():
+        logging.info("Running in headless mode")
+        options.add_argument("--headless")
+    else:
+        logging.info("Running in GUI mode")
 
     # Set language based on BROWSER_LANGUAGE configuration
     if BROWSER_LANGUAGE.lower() == 'es':
