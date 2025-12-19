@@ -17,14 +17,33 @@ def get_driver_chrome():
     options = Options()
     options = add_generic_arguments(options)
     options = add_chrome_arguments(options)
-    
+
+    # Set the Chrome binary location (required when Chrome is not in default location)
+    options.binary_location = '/usr/bin/google-chrome'
+
+    # Check if running in Docker/production environment
+    is_dockerized = os.environ.get(
+        'DOCKERIZED', '').lower() in ('true', '1', 'yes')
+    has_system_chromedriver = os.path.exists('/usr/bin/chromedriver')
+    is_production = STAGE == 'production'
+
     # In Docker/Alpine environment, use the system chromium and chromedriver
-    if (os.environ.get('DOCKERIZED', False) or os.path.exists('/usr/bin/chromedriver') or STAGE == 'production'):
+    if is_dockerized or has_system_chromedriver or is_production:
+        logging.debug("Using Docker/production chromedriver path")
         service = Service('/usr/bin/chromedriver')
-        options.binary_location = '/usr/bin/chromium-browser'
     else:
-        service = Service(ChromeDriverManager().install())
-    
+        # Use webdriver-manager to download and manage chromedriver automatically
+        logging.debug("Using webdriver-manager to download chromedriver")
+        try:
+            chromedriver_path = ChromeDriverManager().install()
+            logging.debug(f"Chromedriver installed at: {chromedriver_path}")
+            service = Service(chromedriver_path)
+        except Exception as e:
+            logging.warning(f"Failed to use webdriver-manager: {e}")
+            # Fallback: Let Selenium find the browser automatically
+            logging.debug("Using Selenium auto-discovery for chromedriver")
+            service = None
+
     driver = webdriver.Chrome(service=service, options=options)
     return driver
 
@@ -36,7 +55,7 @@ def get_driver_firefox():
     return driver
 
 
-def get_page(browser = 'chrome', url = BASE_URL):
+def get_page(browser='chrome', url=BASE_URL):
     # Return driver
     logging.info('Starting driver')
     if browser == 'firefox':
@@ -57,32 +76,34 @@ def close_driver(driver):
     """
     Cierra el driver de Selenium de forma segura.
     Maneja alertas abiertas, limpia eventos de JavaScript y proporciona logging detallado.
-    
+
     Args:
         driver: Instancia del driver de Selenium
-    
+
     Raises:
         Exception: Si ocurre un error al cerrar el driver
     """
     try:
         if driver:
             logging.info("Cerrando el driver...")
-            
+
             # Limpiar eventos de beforeunload para evitar diálogos
             try:
                 logging.info("Deshabilitando eventos beforeunload...")
                 driver.execute_script("window.onbeforeunload = null;")
-                logging.debug("Eventos beforeunload deshabilitados exitosamente")
+                logging.debug(
+                    "Eventos beforeunload deshabilitados exitosamente")
             except Exception as js_error:
-                logging.debug(f"No se pudo deshabilitar beforeunload: {js_error}")
-            
+                logging.debug(
+                    f"No se pudo deshabilitar beforeunload: {js_error}")
+
             # Limpiar unload handlers
             try:
                 logging.debug("Deshabilitando eventos unload...")
                 driver.execute_script("window.onunload = null;")
             except Exception as js_error:
                 logging.debug(f"No se pudo deshabilitar unload: {js_error}")
-            
+
             # Intentar cerrar cualquier alerta abierta antes de cerrar el driver
             try:
                 alert = WebDriverWait(driver, 1).until(EC.alert_is_present())
@@ -91,9 +112,7 @@ def close_driver(driver):
             except Exception as alert_error:
                 # No hay alerta presente, continuar con el cierre
                 logging.debug(f"No hay alerta abierta: {alert_error}")
-            
 
-            
             # Cerrar todas las ventanas
             logging.info("Cerrando todas las ventanas del driver...")
             driver.quit()
@@ -101,7 +120,8 @@ def close_driver(driver):
         else:
             logging.warning("El driver es None, no se puede cerrar")
     except Exception as e:
-        logging.error(f"Error {inspect.currentframe().f_code.co_name}: {e}", exc_info=True)
+        logging.error(
+            f"Error {inspect.currentframe().f_code.co_name}: {e}", exc_info=True)
 
 
 # This function, kill all chrome process
@@ -158,13 +178,13 @@ def add_chrome_arguments(options):
         "enable-logging"
     ]
     options.add_experimental_option("excludeSwitches", exp_opt)
-    
+
     # Set language based on BROWSER_LANGUAGE configuration
     if BROWSER_LANGUAGE.lower() == 'es':
         language_list = ["es-ES", "es"]
     else:
         language_list = ["en-US", "en"]
-    
+
     pref_opt = {
         # Disable all type of popups
         "profile.default_content_setting_values.notifications": 2,
