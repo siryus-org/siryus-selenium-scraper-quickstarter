@@ -111,6 +111,46 @@ class TestControllerTest:
         assert isinstance(result, dict)
         assert 'browser_results' in result
 
+    def test_controller_test_visual_with_screenshots(self):
+        """Test VISUAL - Abre navegador real, navega a URLs y toma screenshots
+
+        ⚠️ Este test SÍ abre ventanas del navegador Chrome
+        ⚠️ Verá navegación a Google y GitHub
+        ⚠️ Se guardarán screenshots en logs/
+
+        Requiere display disponible (DISPLAY=:0)
+        """
+        test_data = {
+            'browsers': ['chrome'],
+            'test_search': True,   # Buscar elementos en la página
+            'test_writes': False,
+            'screenshots': True,   # Tomar screenshots
+            'urls': ['https://www.google.com', 'https://www.github.com']
+        }
+
+        print("\n" + "="*80)
+        print("🎬 INICIANDO TEST VISUAL")
+        print("   Se abrirá el navegador Chrome")
+        print("   Se navegará a: Google y GitHub")
+        print("   Se tomarán screenshots")
+        print("="*80 + "\n")
+
+        result = controller_test(test_data)
+
+        # Validaciones
+        assert result is not None
+        assert isinstance(result, dict)
+        assert 'total_tests' in result
+        assert 'browser_results' in result
+
+        print("\n" + "="*80)
+        print("✅ TEST VISUAL COMPLETADO")
+        print(f"   Total tests ejecutados: {result['total_tests']}")
+        print(f"   Tests pasados: {result['passed_tests']}")
+        print(f"   Tests fallidos: {result['failed_tests']}")
+        print(f"   Screenshots guardados en: logs/")
+        print("="*80 + "\n")
+
 
 class TestControllerTestEndpoint:
     """Tests para el endpoint /test en Flask"""

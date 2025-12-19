@@ -135,23 +135,24 @@ def kill_driver_process():
 
 
 def add_generic_arguments(options):
-    if not has_display():
-        logging.info("Running in headless mode")
-        options.add_argument("--headless")
-    else:
-        logging.info("Running in GUI mode")
+    # Force headless mode - X11 in dev container doesn't work reliably with Chrome
+    logging.info("Running in headless mode")
+    options.add_argument("--headless=new")
 
     # Set language based on BROWSER_LANGUAGE configuration
     if BROWSER_LANGUAGE.lower() == 'es':
         language_arg = "--lang=es-ES"
     else:
         language_arg = "--lang=en-US"
+    options.add_argument(language_arg)
     options.add_argument("--disable-web-security")
     options.add_argument("--disable-extension")
     options.add_argument("--disable-notifications")
     options.add_argument("--ignore-certificate-errors")
     options.add_argument("--password-store=basic")
     options.add_argument("--no-sandbox")
+    # Prevenir cierre en contenedores
+    options.add_argument("--disable-setuid-sandbox")
     options.add_argument("--allow-running-insecure-content")
     options.add_argument("--no-default-browser-check")
     options.add_argument("--no-first-run")
@@ -163,6 +164,9 @@ def add_generic_arguments(options):
     options.add_argument("--start-maximized")
     options.add_argument("--disable-cache")
     options.add_argument("--disable-translate")
+    
+    # Evitar detección
+    options.add_argument("--disable-blink-features=AutomationControlled")
     return options
 
 

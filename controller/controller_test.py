@@ -1,3 +1,4 @@
+# NO BORRAR PARA QUE LOS TEST DE LA PIPELINE NO DEN ERROR
 """
 Controller de pruebas completo que valida múltiples navegadores y funcionalidades.
 
