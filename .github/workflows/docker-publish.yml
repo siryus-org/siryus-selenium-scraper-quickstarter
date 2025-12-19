@@ -1,10 +1,14 @@
 #
 name: 🚀 Publish
 
+# Este workflow debe ser llamado desde deploy.yml, no ejecutarse directamente
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
+    secrets:
+      STAGE:
+        required: true
+      VALID_TOKEN:
+        required: true
 
 env:
   REGISTRY: ghcr.io
@@ -12,7 +16,7 @@ env:
 
 jobs:
   smoke:
-    uses: ./.github/workflows/docker-smoke.yml
+    uses: ./.github/workflows/test.yml  # Cambiado de docker-smoke.yml a test.yml
 
   build-and-push-image:
     needs: [smoke]
