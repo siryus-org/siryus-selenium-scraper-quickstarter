@@ -1,7 +1,7 @@
 #
-name: Create and publish a Docker image
+name: 🚀 Publish
 
-# Configures this workflow to be called by other workflows
+# Este workflow debe ser llamado desde deploy.yml, no ejecutarse directamente
 on:
   workflow_call:
     secrets:
@@ -10,22 +10,20 @@ on:
       VALID_TOKEN:
         required: true
 
-# Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
-# There is a single job in this workflow. It's configured to run on the latest available version of Ubuntu.
 jobs:
+  # smoke: job removido - los tests ya se ejecutan en deploy.yml
   build-and-push-image:
+    # needs: [smoke]  # Removido - deploy.yml ya asegura que los tests pasen
     runs-on: ubuntu-latest
-    # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
     permissions:
       contents: read
       packages: write
       attestations: write
       id-token: write
-      #
     env:
       STAGE: ${{ secrets.STAGE }}
       VALID_TOKEN: ${{ secrets.VALID_TOKEN }}
@@ -64,7 +62,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
       
-      # This step generates an artifact attestation for the image, which is an unforgeable statement about where and how it was built. It increases supply chain security for people who consume the image. For more information, see [Using artifact attestations to establish provenance for builds](/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).
+      # This step generates an artifact attestation for the image, which is an unforgeable statement about where and how it was built. It increases supply chain security for people who consume the image. For more information, see [Using artifact attestation to establish provenance for builds](/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).
+      # LO QUITAMOS PORQUE EL REPOSITORIO ES PRIVADO
       # - name: Generate artifact attestation
       #   uses: actions/attest-build-provenance@v2
       #   with:

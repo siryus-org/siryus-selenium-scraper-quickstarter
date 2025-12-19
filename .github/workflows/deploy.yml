@@ -10,19 +10,23 @@ jobs:
   test:
     uses: ./.github/workflows/test.yml
 
-  # DOCKER PUBLISH - DESHABILITADO
+  # DOCKER PUBLISH
+  # Si quieres deshabilitarlo, descomenta la línea: if: false
   docker-publish:
     needs: test
+    # if: false  # Descomenta para deshabilitar
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
     uses: ./.github/workflows/docker-publish.yml
-    secrets:
-      # Hay que guardar en las configuraion del repositorio en github los secretos
-      STAGE: ${{ secrets.STAGE }}
-      VALID_TOKEN: ${{ secrets.VALID_TOKEN }}
+    secrets: inherit  # Pasa todos los secretos automáticamente
 
   notify-portainer:
     needs: [test, docker-publish]
-
     runs-on: ubuntu-latest
+    if: success()  # Solo se ejecuta si los jobs anteriores fueron exitosos
     steps:
       - name: Notify Portainer
         run: |
