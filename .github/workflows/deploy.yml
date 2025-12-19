@@ -15,6 +15,11 @@ jobs:
   docker-publish:
     needs: test
     # if: false  # Descomenta para deshabilitar
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
     uses: ./.github/workflows/docker-publish.yml
     secrets: inherit  # Pasa todos los secretos automáticamente
 
