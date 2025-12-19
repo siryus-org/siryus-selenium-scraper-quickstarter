@@ -53,8 +53,3 @@ if __name__ == "__main__":
     debug_mode = STAGE != "production"
     port = int(os.getenv("PORT", 3000))
     app.run(debug=debug_mode, host='0.0.0.0', port=port)
-
-if __name__ == "__main__":
-    debug_mode = STAGE != "production"
-    port = int(os.getenv("PORT", 3000))
-    app.run(debug=debug_mode, host='0.0.0.0', port=port)
