@@ -15,11 +15,9 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  smoke:
-    uses: ./.github/workflows/test.yml  # Cambiado de docker-smoke.yml a test.yml
-
+  # smoke: job removido - los tests ya se ejecutan en deploy.yml
   build-and-push-image:
-    needs: [smoke]
+    # needs: [smoke]  # Removido - deploy.yml ya asegura que los tests pasen
     runs-on: ubuntu-latest
     permissions:
       contents: read
