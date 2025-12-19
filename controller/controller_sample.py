@@ -14,6 +14,8 @@ def controller_sample(data):
 
     except KeyError as e:
         raise messageError(f"The field '{e.args[0]}' has not been sent")
+    
+    driver = None
     try:
         message = "ok"
 
@@ -34,4 +36,5 @@ def controller_sample(data):
             f"Error {inspect.currentframe().f_code.co_name}: {e}")
 
     finally:
-        close_driver(driver)
+        if driver is not None:
+            close_driver(driver)

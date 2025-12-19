@@ -19,11 +19,19 @@ def get_driver_chrome():
     options = add_chrome_arguments(options)
 
     # Set the Chrome binary location (required when Chrome is not in default location)
-    options.binary_location = '/usr/bin/google-chrome'
-
-    # Check if running in Docker/production environment
+    # In Alpine Linux, chromium is installed instead of google-chrome
     is_dockerized = os.environ.get(
         'DOCKERIZED', '').lower() in ('true', '1', 'yes')
+    
+    if is_dockerized or os.path.exists('/usr/bin/chromium'):
+        options.binary_location = '/usr/bin/chromium'
+    elif os.path.exists('/usr/bin/google-chrome'):
+        options.binary_location = '/usr/bin/google-chrome'
+    elif os.path.exists('/usr/bin/chromium-browser'):
+        options.binary_location = '/usr/bin/chromium-browser'
+    # else: let Selenium find it automatically
+
+    # Check if running in Docker/production environment
     has_system_chromedriver = os.path.exists('/usr/bin/chromedriver')
     is_production = STAGE == 'production'
 
