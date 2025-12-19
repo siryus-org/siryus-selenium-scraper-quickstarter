@@ -23,7 +23,7 @@ jobs:
     uses: ./.github/workflows/docker-publish.yml
     secrets: inherit  # Pasa todos los secretos automáticamente
 
-  notify-portainer:
+  notify-webhook:
     needs: [test, docker-publish]
     runs-on: ubuntu-latest
     if: success()  # Solo se ejecuta si los jobs anteriores fueron exitosos
