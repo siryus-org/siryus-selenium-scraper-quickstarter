@@ -5,7 +5,7 @@ from actions.login import login
 from actions.web_driver import close_driver, get_page
 from utils.error import messageError
 
-
+# NO BORRAR PARA QUE LOS TEST DE LA PIPELINE NO DEN ERROR
 def controller_sample(data):
 
     try:

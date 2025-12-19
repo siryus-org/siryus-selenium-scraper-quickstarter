@@ -14,6 +14,29 @@ sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..')))
 
 
+@pytest.fixture(scope="session", autouse=True)
+def cleanup_screenshots():
+    """
+    Limpia las capturas de pantalla después de ejecutar todos los tests.
+    Se ejecuta automáticamente al final de la sesión de tests.
+    """
+    yield  # Ejecutar los tests primero
+
+    # Limpiar después
+    logs_dir = os.path.join(os.path.dirname(__file__), '..', 'logs')
+    if os.path.exists(logs_dir):
+        try:
+            # Eliminar solo archivos .png (screenshots)
+            for filename in os.listdir(logs_dir):
+                if filename.endswith('.png'):
+                    filepath = os.path.join(logs_dir, filename)
+                    if os.path.isfile(filepath):
+                        os.remove(filepath)
+                        print(f"✅ Limpiado: {filename}")
+        except Exception as e:
+            print(f"⚠️  Error al limpiar screenshots: {e}")
+
+
 class TestControllerTest:
     """Suite de pruebas para controller_test"""
 
