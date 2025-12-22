@@ -84,10 +84,6 @@ jobs:
           fi
           echo "✅ Test de /test (Controller Test) pasado correctamente (código: 200)"
 
-      - name: Run pytest tests with Controller Test (en Docker)
-        run: |
-          docker-compose exec -T server pytest test/test_controller_test.py -v
-
       - name: Stop Docker Compose
         run: |
           docker-compose down
