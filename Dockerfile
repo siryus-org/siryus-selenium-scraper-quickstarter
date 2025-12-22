@@ -23,8 +23,12 @@ COPY requirements.txt .
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy application source (keep .py files for tests)
+# Compile Python files and remove source code
 COPY . .
+RUN python -m compileall -b . && \
+    find . -type f -name "*.py" ! -name "requirements.txt" -delete && \
+    find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true && \
+    find . -type d -name "*.egg-info" -exec rm -rf {} + 2>/dev/null || true
 
 FROM base AS final
 
@@ -43,9 +47,6 @@ RUN apk add --no-cache --virtual .build-deps \
     && apk del .build-deps
 
 COPY --from=builder /app .
-
-# Copy test sources so pytest can run inside the container
-COPY test ./test
 
 EXPOSE 3000
 
