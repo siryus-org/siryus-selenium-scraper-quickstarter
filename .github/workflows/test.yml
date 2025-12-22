@@ -58,13 +58,35 @@ jobs:
           body=$(echo "$response" | head -n-1)
           echo "HTTP Code: $http_code"
           echo "Response: $body"
-          # Verificar que NO devuelve 401 (Unauthorized) ni 500 (Internal Server Error en auth)
-          if [ "$http_code" = "401" ]; then
-            echo "❌ Error: Autenticación fallida"
+          # Verificar que devuelve 200 (OK)
+          if [ "$http_code" != "200" ]; then
+            echo "❌ Error: Se esperaba código 200, pero se obtuvo $http_code"
             docker-compose logs
             exit 1
           fi
-          echo "✅ Test de autenticación pasado (código: $http_code)"
+          echo "✅ Test de /sample pasado correctamente (código: 200)"
+
+      - name: Test endpoint /test con autenticación (Controller Test)
+        run: |
+          response=$(curl -s -w "\n%{http_code}" -X POST http://localhost:3000/test \
+            -H "Authorization: Bearer sample" \
+            -H "Content-Type: application/json" \
+            -d '{"browsers":["chrome"],"test_search":false,"test_writes":false,"screenshots":true}')
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | head -n-1)
+          echo "HTTP Code: $http_code"
+          echo "Response: $body"
+          # Verificar que devuelve 200 (OK)
+          if [ "$http_code" != "200" ]; then
+            echo "❌ Error: Se esperaba código 200, pero se obtuvo $http_code"
+            docker-compose logs
+            exit 1
+          fi
+          echo "✅ Test de /test (Controller Test) pasado correctamente (código: 200)"
+
+      - name: Run pytest tests with Controller Test (en Docker)
+        run: |
+          docker-compose exec -T server pytest test/test_controller_test.py -v
 
       - name: Stop Docker Compose
         run: |
