@@ -50,4 +50,4 @@ COPY --from=builder /app .
 
 EXPOSE 3000
 
-ENTRYPOINT ["gunicorn", "-w", "2", "-b", "0.0.0.0:3000", "--timeout", "600", "main:app"]
+ENTRYPOINT ["gunicorn", "-w", "1", "-b", "0.0.0.0:3000", "--timeout", "600", "main:app"]
