@@ -12,8 +12,6 @@ def handle_request_endpoint(controller_function, decode_response=True):
     create_download_directory(DOWNLOAD_DIR)
     start_time = time.time()
     logging.info("|| Controller:" + controller_function.__name__)
-    if STAGE != "production":
-        print("|| Controller:" + controller_function.__name__)
     if not authenticate_token():
         return jsonify({"status": "ERROR", "message": "Unauthorized", "time": time.time() - start_time}), 401
     if not request.is_json:
