@@ -25,7 +25,7 @@ def sample_action(driver):
             logging.info(
                 '- Skipping access send button')
             if STAGE != "production":
-                print("Skipping click")
+                logging.info("Skipping click")
 
         return driver
     except Exception as e:

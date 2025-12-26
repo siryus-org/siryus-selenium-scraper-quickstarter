@@ -162,3 +162,5 @@ cython_debug/
 *.deb
 *.deb*
 /.github/instructions
+
+logs/*.png
