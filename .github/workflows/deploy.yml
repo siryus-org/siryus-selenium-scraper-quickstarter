@@ -31,3 +31,4 @@ jobs:
       - name: Notify Portainer
         run: |
           curl -X POST http://portainer.siryus-services.com:9000/api/stacks/webhooks/SAMPLE
+        # curl -X POST "${{ secrets.DEPLOY_WEBHOOK_URL }}"
