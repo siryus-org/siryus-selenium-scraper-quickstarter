@@ -6,7 +6,9 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/python:1-3.12-bullseye",
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	"postCreateCommand": "git clone --depth=1 https://github.com/Ismola/personal-copilot-instructions tmp-copilot-instructions && mkdir -p .github && rm -rf .github/instructions && mv tmp-copilot-instructions/.github/instructions .github/ && rm -rf tmp-copilot-instructions && pip install -r requirements.txt && apt-get update && apt-get install -y wget && wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && apt-get install -y ./google-chrome-stable_current_amd64.deb && rm google-chrome-stable_current_amd64.deb && apt-get install -y firefox-esr && apt-get clean",
