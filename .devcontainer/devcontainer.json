@@ -10,7 +10,9 @@
 			"enableNonRootDocker": "true",
 			"moby": "true"
 		},
-		"ghcr.io/devcontainers/features/python:1": {}
+		"ghcr.io/devcontainers/features/python:1": {
+			"version": "latest"
+		}
 	},
 	"customizations": {
 		"vscode": {
@@ -22,7 +24,7 @@
 			],
 			"settings": {
 				"python.terminal.activateEnvInCurrentTerminal": false,
-				"python.defaultInterpreterPath": "/usr/local/bin/python"
+				"python.defaultInterpreterPath": "/usr/local/python/current/bin/python3"
 			}
 		}
 	},
