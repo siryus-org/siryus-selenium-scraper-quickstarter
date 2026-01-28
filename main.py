@@ -5,8 +5,8 @@ from controller.controller_test import controller_test
 from utils.handle_request import handle_request_endpoint
 from utils.config import STAGE
 
-
 def create_app():
+
     app = Flask(__name__)
 
     @app.route('/')

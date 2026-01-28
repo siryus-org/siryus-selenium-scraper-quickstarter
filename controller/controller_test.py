@@ -17,9 +17,8 @@ import logging
 from time import sleep
 from selenium.webdriver.common.by import By
 
-from actions.web_driver import close_driver, get_page, get_wait, kill_driver_process
+from actions.web_driver import close_driver, get_page, kill_driver_process
 from actions.search_element import search_element
-from actions.click_element import click_element
 from actions.write_element import write_element
 from utils.error import messageError
 from utils.file_manager import take_screenshot
