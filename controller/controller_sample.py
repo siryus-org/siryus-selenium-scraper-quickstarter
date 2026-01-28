@@ -1,11 +1,12 @@
 
 import inspect
 import logging
-from actions.login import login
 from actions.web_driver import close_driver, get_page
 from utils.error import messageError
 
 # NO BORRAR PARA QUE LOS TEST DE LA PIPELINE NO DEN ERROR
+
+
 def controller_sample(data):
 
     try:
@@ -14,7 +15,7 @@ def controller_sample(data):
 
     except KeyError as e:
         raise messageError(f"The field '{e.args[0]}' has not been sent")
-    
+
     driver = None
     try:
         message = "ok"

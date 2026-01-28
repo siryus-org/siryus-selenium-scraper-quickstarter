@@ -1,12 +1,11 @@
 """
 Pruebas para el archivo config.py
 """
+from utils.config import LOG_FILE_DELETION_DAYS
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-import pytest
-from utils.config import LOG_FILE_DELETION_DAYS
+sys.path.insert(0, os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..')))
 
 
 def test_log_file_deletion_days_exists():
