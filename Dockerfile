@@ -1,11 +1,28 @@
 ARG PYTHON_VERSION=3.10.12
-FROM python:${PYTHON_VERSION}-alpine3.18 AS base
+FROM python:${PYTHON_VERSION}-slim AS base
 
-# Install only essential runtime dependencies
-RUN apk add --no-cache \
+# Install runtime dependencies for browsers and rendering (Chrome/Firefox, fonts, gfx libs)
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
     firefox-esr \
     chromium \
-    chromium-chromedriver
+    chromium-driver \
+    fonts-dejavu \
+    fonts-liberation \
+    fonts-freefont-ttf \
+    libnss3 \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libatk1.0-0 \
+    libdrm2 \
+    libxkbcommon0 \
+    libxdamage1 \
+    libxcomposite1 \
+    libxrandr2 \
+    libgbm1 \
+    libpango-1.0-0 \
+    libcairo2 \
+    && rm -rf /var/lib/apt/lists/*
 
 FROM base AS builder
 
@@ -14,10 +31,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 # Install build dependencies and compile packages
-RUN apk add --no-cache --virtual .build-deps \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    build-essential \
     gcc \
-    musl-dev \
-    linux-headers
+    libffi-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 RUN --mount=type=cache,target=/root/.cache/pip \
@@ -37,17 +56,19 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     DOCKERIZED=true
 WORKDIR /app
 
-# Install only essential runtime dependencies for final stage
+# Copy requirements and install dependencies
 COPY requirements.txt .
-RUN apk add --no-cache --virtual .build-deps \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    build-essential \
     gcc \
-    musl-dev \
-    linux-headers \
+    libffi-dev \
     && pip install --no-cache-dir -r requirements.txt \
-    && apk del .build-deps
+    && apt-get purge -y --auto-remove build-essential gcc libffi-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app .
 
 EXPOSE 3000
 
-ENTRYPOINT ["gunicorn", "-w", "1", "-b", "0.0.0.0:3000", "--timeout", "600", "main:app"]
+ENTRYPOINT ["gunicorn", "-w", "2", "-b", "0.0.0.0:3000", "--timeout", "600", "main:app"]
