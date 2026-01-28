@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from utils.config import PAGE_MAX_TIMEOUT, BASE_URL, DOWNLOAD_DIR, STAGE, has_display
+from utils.config import PAGE_MAX_TIMEOUT, BASE_URL, DOWNLOAD_DIR, has_display
 
 import psutil
 
@@ -17,10 +17,18 @@ def get_driver_chrome():
     options = add_generic_arguments(options)
     options = add_chrome_arguments(options)
 
-    if (os.environ.get('DOCKERIZED', False) or os.path.exists('/usr/bin/chromedriver') or STAGE == 'production'):
+    # Set Chrome/Chromium binary location if found
+    chrome_binary = get_chrome_binary()
+    if chrome_binary:
+        logging.info(f'Using Chrome binary: {chrome_binary}')
+        options.binary_location = chrome_binary
+
+    if (os.getenv("DOCKERIZED") == "true"):
+        # When running with Docker Compose
+        logging.info('Using local chromedriver')
         service = Service('/usr/bin/chromedriver')
-        options.binary_location = get_chrome_binary()
     else:
+        # For local development
         service = Service(ChromeDriverManager().install())
 
     driver = webdriver.Chrome(service=service, options=options)

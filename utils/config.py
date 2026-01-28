@@ -19,7 +19,7 @@ LOG_FILE_DELETION_DAYS = 30
 
 
 def has_display():
-    if HEADLESS_MODE == 'True':
+    if HEADLESS_MODE == 'True' or os.getenv("DOCKERIZED"):
         return False
 
     # ⬇️ Automatic mode
