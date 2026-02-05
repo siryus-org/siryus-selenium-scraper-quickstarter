@@ -8,7 +8,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from utils.config import PAGE_MAX_TIMEOUT, BASE_URL, DOWNLOAD_DIR, has_display
-from selenium_stealth import stealth
 
 import psutil
 
@@ -67,18 +66,6 @@ def get_page(browser='chrome', url=BASE_URL):
     else:
         driver = get_driver_chrome()
     logging.info('Getting URL')
-
-    stealth(
-        driver,
-        user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-        languages=["en-US", "en"],
-        vendor="Google Inc.",
-        platform="Win32",
-        webgl_vendor="Intel Inc.",
-        renderer="Intel Iris OpenGL Engine",
-        fix_hairline=True,
-    )
-
     driver.get(url)
     return driver
 
