@@ -1,6 +1,7 @@
 
 import inspect
 import logging
+import random
 from time import sleep
 from utils.error import messageError
 from selenium.webdriver.common.action_chains import ActionChains
@@ -10,6 +11,13 @@ from selenium.common.exceptions import (
     StaleElementReferenceException,
     InvalidElementStateException
 )
+
+
+def _human_typing_delay(min_delay=0.05, max_delay=2):
+    """
+    Sleep for a random delay to simulate human typing.
+    """
+    sleep(random.uniform(min_delay, max_delay))
 
 
 # This function searches for an element on the page, scrolls to it, and writes to it with multiple fallback strategies.
@@ -53,7 +61,7 @@ def write_element(driver, element, text, clear=True, slow=False, max_attempts=3)
             if slow:
                 for char in text:
                     element.send_keys(char)
-                    sleep(0.1)
+                    _human_typing_delay()
             else:
                 element.send_keys(text)
 
@@ -118,7 +126,7 @@ def write_element(driver, element, text, clear=True, slow=False, max_attempts=3)
                     if slow:
                         for char in text:
                             element.send_keys(char)
-                            sleep(0.1)
+                            _human_typing_delay()
                     else:
                         element.send_keys(text)
 
@@ -140,7 +148,7 @@ def write_element(driver, element, text, clear=True, slow=False, max_attempts=3)
                     if slow:
                         for char in text:
                             element.send_keys(char)
-                            sleep(0.1)
+                            _human_typing_delay()
                     else:
                         element.send_keys(text)
 
@@ -188,7 +196,7 @@ def write_element(driver, element, text, clear=True, slow=False, max_attempts=3)
                     if slow:
                         for char in text:
                             actions.send_keys(char).perform()
-                            sleep(0.1)
+                            _human_typing_delay()
                     else:
                         actions.send_keys(text).perform()
 
@@ -211,7 +219,7 @@ def write_element(driver, element, text, clear=True, slow=False, max_attempts=3)
                     for char in text:
                         element.send_keys(char)
                         if slow:
-                            sleep(0.1)
+                            _human_typing_delay()
                         else:
                             sleep(0.01)
 
