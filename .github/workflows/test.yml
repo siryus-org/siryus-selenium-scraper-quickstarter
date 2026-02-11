@@ -21,6 +21,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pytest
+          pip install pyyaml
           pip install -r requirements.txt
 
       - name: Run Test
@@ -32,6 +33,31 @@ jobs:
 
       - name: Copiar .env.example como .env
         run: cp .env.example .env
+
+      - name: Ensure external docker networks exist
+        run: |
+          mapfile -t networks < <(python - <<'PY'
+          import yaml
+
+          with open("compose.yaml", "r", encoding="utf-8") as handle:
+              data = yaml.safe_load(handle) or {}
+
+          networks = data.get("networks", {}) or {}
+          external = []
+          for net_name, net_cfg in networks.items():
+              if isinstance(net_cfg, dict) and net_cfg.get("external") is True:
+                  external.append(net_cfg.get("name") or net_name)
+
+          for name in external:
+              print(name)
+          PY
+          )
+
+          for net in "${networks[@]}"; do
+            if [ -n "$net" ]; then
+              docker network inspect "$net" >/dev/null 2>&1 || docker network create "$net"
+            fi
+          done
 
       - name: Start Docker Compose in detached mode
         run: |
