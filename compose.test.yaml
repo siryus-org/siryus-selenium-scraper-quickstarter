@@ -1,0 +1,8 @@
+# Override configuration for testing
+# This file ensures the port is exposed and network configuration doesn't interfere with tests
+services:
+  server:
+    ports:
+      - "3000:3000"
+    networks:
+      - default
