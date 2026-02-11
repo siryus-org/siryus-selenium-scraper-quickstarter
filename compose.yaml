@@ -33,3 +33,8 @@ services:
           target: /app
         - action: rebuild
           path: requirements.txt
+    networks:
+      - cloudflare_siryus-network
+networks:
+  cloudflare_siryus-network:
+    external: true
