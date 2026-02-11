@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python (para tests)
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install dependencies for tests
         run: |
@@ -35,7 +35,7 @@ jobs:
 
       - name: Start Docker Compose in detached mode
         run: |
-          docker compose up --build -d
+          docker compose -f compose.yaml -f compose.test.yaml up --build -d
 
       - name: Test endpoint raíz con curl
         run: |
@@ -80,4 +80,4 @@ jobs:
 
       - name: Stop Docker Compose
         run: |
-          docker compose down
+          docker compose -f compose.yaml -f compose.test.yaml down
