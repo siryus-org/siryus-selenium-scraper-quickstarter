@@ -12,11 +12,11 @@ AUTO_DELETE_LOGS = os.getenv("AUTO_DELETE_LOGS") or True
 HEADLESS_MODE = os.getenv("HEADLESS_MODE") or 'auto'
 BROWSER_LANGUAGE = os.getenv("BROWSER_LANGUAGE") or 'en'
 DOWNLOAD_DIR = os.path.abspath("temp_downloads")
+PORT = int(os.getenv("PORT", 3000))
 PAGE_MAX_TIMEOUT = 7
 DOWNLOAD_MAX_TIMEOUT = 4
 BASE_URL = 'https://www.google.com/'
 LOG_FILE_DELETION_DAYS = 30
-
 
 def has_display():
     if HEADLESS_MODE == 'True' or os.getenv("DOCKERIZED"):

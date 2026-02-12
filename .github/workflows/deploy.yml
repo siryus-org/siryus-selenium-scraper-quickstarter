@@ -21,7 +21,6 @@ jobs:
       attestations: write
       id-token: write
     uses: ./.github/workflows/docker-publish.yml
-    secrets: inherit  # Pasa todos los secretos automáticamente
 
   notify-webhook:
     needs: [test, docker-publish]

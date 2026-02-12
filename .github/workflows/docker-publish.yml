@@ -4,11 +4,6 @@ name: 🚀 Publish
 # Este workflow debe ser llamado desde deploy.yml, no ejecutarse directamente
 on:
   workflow_call:
-    secrets:
-      STAGE:
-        required: true
-      VALID_TOKEN:
-        required: true
 
 env:
   REGISTRY: ghcr.io
@@ -24,9 +19,6 @@ jobs:
       packages: write
       attestations: write
       id-token: write
-    env:
-      STAGE: ${{ secrets.STAGE }}
-      VALID_TOKEN: ${{ secrets.VALID_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -45,11 +37,6 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-      # Añade este paso para crear el archivo .env
-      - name: Create .env file for Docker build
-        run: |
-          echo "STAGE=${{ secrets.STAGE }}" > .env
-          echo "VALID_TOKEN=${{ secrets.VALID_TOKEN }}" >> .env
       # This step uses the `docker/build-push-action` action to build the image, based on your repository's `Dockerfile`. If the build succeeds, it pushes the image to GitHub Packages.
       # It uses the `context` parameter to define the build's context as the set of files located in the specified path. For more information, see [Usage](https://github.com/docker/build-push-action#usage) in the README of the `docker/build-push-action` repository.
       # It uses the `tags` and `labels` parameters to tag and label the image with the output from the "meta" step.

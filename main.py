@@ -1,9 +1,8 @@
-import os
 from flask import Flask, jsonify
 from controller.controller_sample import controller_sample
 from controller.controller_test import controller_test
 from utils.handle_request import handle_request_endpoint
-from utils.config import STAGE
+from utils.config import PORT, STAGE
 
 def create_app():
 
@@ -51,5 +50,5 @@ app = create_app()
 
 if __name__ == "__main__":
     debug_mode = STAGE != "production"
-    port = int(os.getenv("PORT", 3000))
+    port = int(PORT)
     app.run(debug=debug_mode, host='0.0.0.0', port=port)
