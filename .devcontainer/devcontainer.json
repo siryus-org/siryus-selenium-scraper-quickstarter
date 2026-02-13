@@ -35,11 +35,11 @@
 		"storage": "32gb"
 	},
 	"postCreateCommand": "pip install -r requirements.txt && apt-get update && apt-get install -y wget && wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && apt-get install -y ./google-chrome-stable_current_amd64.deb && rm google-chrome-stable_current_amd64.deb && apt-get install -y firefox-esr && apt-get clean",
-	"appPort": 3000,
+	// "appPort": "3010:3000",
 	// TODO: cambiar el nombre del contenedor y puerto
 	"runArgs": [
 		"--name",
-		"siryus-selenium-scrapper-quickstarter",
+		"selenium-scrapper-quickstarter",
 		"--env",
 		"TZ=Europe/Madrid"
 	]
