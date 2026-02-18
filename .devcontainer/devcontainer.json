@@ -36,7 +36,7 @@
 	},
 	"postCreateCommand": "pip install -r requirements.txt && apt-get update && apt-get install -y wget && wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && apt-get install -y ./google-chrome-stable_current_amd64.deb && rm google-chrome-stable_current_amd64.deb && apt-get install -y firefox-esr && apt-get clean",
 	// TODO: cambiar el nombre del contenedor y puerto
-	// "appPort": "3010:3000",
+	"appPort": 3000,
 	"runArgs": [
 		"--name",
 		"selenium-scrapper-quickstarter",
