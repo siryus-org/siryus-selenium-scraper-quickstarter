@@ -9,6 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 def reload_driver(driver):
+    logging.info(f"START || {inspect.currentframe().f_code.co_name}")
     try:
         logging.info("Recargando la página...")
 

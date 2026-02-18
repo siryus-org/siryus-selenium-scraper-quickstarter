@@ -13,6 +13,7 @@ from selenium.common.exceptions import (
 
 # This function searches for an element on the page, scrolls to it, and click to it with multiple fallback strategies.
 def click_element(driver, element, max_attempts=3):
+    logging.info(f"START || {inspect.currentframe().f_code.co_name} - Element: {element}")
     """
     Realiza un click seguro en un elemento, intentando diferentes métodos con robustez mejorada
 
