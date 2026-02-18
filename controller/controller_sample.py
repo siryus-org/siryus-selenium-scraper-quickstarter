@@ -20,12 +20,11 @@ def controller_sample(data):
     try:
         message = "ok"
 
-        logging.info("|| Get initial page")
         # You can choose betwen Chrome (default ) or firefox. Example: get_page('firefox')
         driver = get_page()
 
         # TODO: decominate to use login
-        logging.info("|| Init Login")
+
         # driver = login(driver, username, password)
 
         # Add actions

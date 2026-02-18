@@ -8,8 +8,8 @@ from selenium.webdriver.common.by import By
 
 
 def sample_action(driver):
+    logging.info(f"START || {inspect.currentframe().f_code.co_name}")
     try:
-
         accept_button = search_element(driver, (
             By.XPATH, "//span[text()='Accept']"
         ))

@@ -6,6 +6,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 def hover_element(driver, element, pause_time=0.5):
+    logging.info(f"START || {inspect.currentframe().f_code.co_name} - Element: {element}")
     """
     Realiza un hover (movimiento del mouse) sobre un elemento
 
