@@ -22,6 +22,7 @@ def _human_typing_delay(min_delay=0.05, max_delay=2):
 
 # This function searches for an element on the page, scrolls to it, and writes to it with multiple fallback strategies.
 def write_element(driver, element, text, clear=True, slow=False, max_attempts=3):
+    logging.info(f"START || {inspect.currentframe().f_code.co_name} - Element: {element}, Text: {text}")
     """
     Segrating text safely to an element with multiple Fallback strategies
 

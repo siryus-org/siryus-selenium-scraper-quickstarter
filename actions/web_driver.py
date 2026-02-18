@@ -1,3 +1,4 @@
+import inspect
 import logging
 import os
 from webdriver_manager.chrome import ChromeDriverManager
@@ -14,6 +15,7 @@ import psutil
 
 
 def get_driver_chrome():
+    logging.info(f"START || {inspect.currentframe().f_code.co_name}")
     options = Options()
     options = add_generic_arguments(options)
     options = add_chrome_arguments(options)
@@ -37,6 +39,7 @@ def get_driver_chrome():
 
 
 def get_driver_firefox():
+    logging.info(f"START || {inspect.currentframe().f_code.co_name}")
     options = FirefoxOptions()
     options = add_generic_arguments(options)
     options.accept_insecure_certs = True
@@ -60,8 +63,9 @@ def get_driver_firefox():
 
 
 def get_page(browser='chrome', url=BASE_URL):
-    # Return driver
-    logging.info('Starting driver')
+    logging.info(
+        f"START || {inspect.currentframe().f_code.co_name} - Browser: {browser}, URL: {url}")
+
     if browser == 'firefox':
         driver = get_driver_firefox()
     else:
@@ -78,23 +82,25 @@ def get_page(browser='chrome', url=BASE_URL):
         )
     logging.info('Getting URL')
 
-
     driver.get(url)
     return driver
 
 
 def get_wait(driver):
     # Return wait function
+    logging.info(f"START || {inspect.currentframe().f_code.co_name}")
     return WebDriverWait(driver, PAGE_MAX_TIMEOUT)
 
 
 def close_driver(driver):
+    logging.info(f"START || {inspect.currentframe().f_code.co_name}")
     if driver:
         driver.quit()
 
 
 # This function, kill all chrome process
 def kill_driver_process():
+    logging.info(f"START || {inspect.currentframe().f_code.co_name}")
     for proc in psutil.process_iter():
         try:
             if proc.name() == "chrome" or proc.name() == "chromedriver" or proc.name() == "chrome.exe":
@@ -104,6 +110,7 @@ def kill_driver_process():
 
 
 def add_generic_arguments(options):
+    logging.info(f"START || {inspect.currentframe().f_code.co_name}")
     if not has_display():
         options.add_argument("--headless")
     options.add_argument("--disable-web-security")
@@ -127,6 +134,7 @@ def add_generic_arguments(options):
 
 
 def get_firefox_binary():
+    logging.info(f"START || {inspect.currentframe().f_code.co_name}")
     candidates = [
         os.environ.get("FIREFOX_BIN"),
         "/usr/bin/firefox",
@@ -138,6 +146,7 @@ def get_firefox_binary():
 
 
 def get_chrome_binary():
+    logging.info(f"START || {inspect.currentframe().f_code.co_name}")
     candidates = [
         os.environ.get("CHROME_BIN"),
         "/usr/bin/chromium-browser",
@@ -147,6 +156,7 @@ def get_chrome_binary():
 
 
 def add_chrome_arguments(options):
+    logging.info(f"START || {inspect.currentframe().f_code.co_name}")
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
     options.add_argument(f"user-agent={user_agent}")
     options.add_argument("--log-level=3")

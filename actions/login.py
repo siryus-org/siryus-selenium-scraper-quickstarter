@@ -4,15 +4,15 @@ from actions.search_element import search_element
 from actions.write_element import write_element
 from utils.error import messageError
 from selenium.webdriver.common.by import By
+import logging
 
 # The driver must have accessed the target url
 # TODO: Modify login for hacerlo coincide with the web site
 
 
 def login(driver, username, password):
+    logging.info(f"START || {inspect.currentframe().f_code.co_name}")
     try:
-        # THIS IS A SAMPLE!!
-
         user_input = search_element(driver, (
             By.CSS_SELECTOR, 'input[placeholder="Escriba su correo electrónico"]'
         ))

@@ -8,9 +8,9 @@ from selenium.webdriver.support import expected_conditions
 
 
 def search_element(driver, locator, wait_to_search=True, raise_exception=True):
-
+    logging.info(f"START || {inspect.currentframe().f_code.co_name} - Locator: {locator}")
     # locator  example: driver, (By.XPATH, "//span[contains(@class, 'x-menu-item-text') and contains(text(), '{}')]".format(xpath))
-    logging.info('- Searching {}'.format(locator))
+    
     wait = get_wait(driver)
     try:
         if wait_to_search:
