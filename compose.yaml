@@ -1,7 +1,6 @@
 services:
   server:
-    build:
-      context: .
+    image: ghcr.io/ismola/selenium-scraper-quickstarter:main
     ports:
       - 3000:3000
     container_name: selenium-scraper-quickstarter
