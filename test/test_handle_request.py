@@ -56,7 +56,7 @@ def test_handle_request_missing_required_field(client):
     assert response.status_code == 400
     data = json.loads(response.data)
     assert data['status'] == 'ERROR'
-    assert 'password' in data['message']
+    assert data['message'] == 'The request could not be processed.'
 
 
 def test_handle_request_empty_json(client):

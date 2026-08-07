@@ -2,13 +2,74 @@ import logging
 import os
 import re
 import io
+import ipaddress
 import requests
 import base64
+import socket
+from urllib.parse import urljoin, urlsplit
+
+from utils.config import MAX_DOWNLOAD_BYTES
 from utils.error import messageError
 import uuid
 import tempfile
 import shutil
 from datetime import datetime
+
+
+_REDIRECT_CODES = {301, 302, 303, 307, 308}
+
+
+def _validate_public_url(url):
+    parsed = urlsplit(url)
+    if parsed.scheme not in {"http", "https"} or not parsed.hostname:
+        raise messageError("La URL de descarga no es válida")
+    if parsed.username or parsed.password:
+        raise messageError("La URL de descarga no puede contener credenciales")
+    try:
+        addresses = {
+            result[4][0]
+            for result in socket.getaddrinfo(
+                parsed.hostname,
+                parsed.port or (443 if parsed.scheme == "https" else 80),
+            )
+        }
+    except socket.gaierror as error:
+        raise messageError("No se pudo resolver el servidor de descarga") from error
+    if not addresses or any(not ipaddress.ip_address(address).is_global for address in addresses):
+        raise messageError("No se permiten descargas desde redes privadas o locales")
+
+
+def _download_public_url(url):
+    current_url = url
+    for _ in range(6):
+        _validate_public_url(current_url)
+        response = requests.get(
+            current_url,
+            timeout=10,
+            allow_redirects=False,
+            stream=True,
+        )
+        if response.status_code in _REDIRECT_CODES:
+            location = response.headers.get("Location")
+            response.close()
+            if not location:
+                raise messageError("La redirección de descarga no contiene destino")
+            current_url = urljoin(current_url, location)
+            continue
+        response.raise_for_status()
+        content_length = response.headers.get("Content-Length")
+        if content_length and int(content_length) > MAX_DOWNLOAD_BYTES:
+            response.close()
+            raise messageError("El archivo supera el tamaño máximo permitido")
+        content = bytearray()
+        for chunk in response.iter_content(chunk_size=64 * 1024):
+            content.extend(chunk)
+            if len(content) > MAX_DOWNLOAD_BYTES:
+                response.close()
+                raise messageError("El archivo supera el tamaño máximo permitido")
+        response.close()
+        return bytes(content), current_url
+    raise messageError("La descarga contiene demasiadas redirecciones")
 
 
 def clear_directory(directory):
@@ -66,17 +127,16 @@ def get_file(data):
     if isinstance(data, str) and url_pattern.match(data):
         # Si es una URL, obtiene el nombre y extensión del archivo
         try:
-            response = requests.get(data, timeout=10)
-            response.raise_for_status()  # Lanza error si el request falla
+            content, final_url = _download_public_url(data)
 
             # Obtener el nombre y la extensión desde la URL
-            file_name = os.path.basename(data)
+            file_name = os.path.basename(urlsplit(final_url).path)
             if not file_name:  # Si no se obtiene el nombre del archivo, genera un ID único
                 file_name = f"{uuid.uuid4()}.unknown"
 
-            return response.content, file_name
+            return content, file_name
 
-        except requests.RequestException as e:
+        except (requests.RequestException, ValueError) as e:
             raise messageError(f"Error al descargar el archivo: {e}")
 
     elif isinstance(data, (bytes, io.BytesIO)):
@@ -89,7 +149,9 @@ def get_file(data):
         # Si es una cadena, se asume que es Base64 y se decodifica
         try:
             # Intentamos decodificarlo como Base64
-            decoded_data = base64.b64decode(data)
+            decoded_data = base64.b64decode(data, validate=True)
+            if len(decoded_data) > MAX_DOWNLOAD_BYTES:
+                raise messageError("El archivo supera el tamaño máximo permitido")
             file_name = f"{uuid.uuid4()}.pdf"  # Nombre genérico para Base64
             return decoded_data, file_name
         except Exception as e:
@@ -99,6 +161,9 @@ def get_file(data):
 
 
 def createTempFile(data, file_name):
+    safe_file_name = os.path.basename(file_name)
+    if safe_file_name != file_name or safe_file_name in {"", ".", ".."}:
+        raise messageError("Nombre de archivo no válido")
     # Crear el archivo temporal con delete=False
     with tempfile.NamedTemporaryFile(delete=False) as temp_file:
         # Escribir los datos en el archivo temporal
@@ -106,7 +171,7 @@ def createTempFile(data, file_name):
         temp_file_path = temp_file.name
 
     # Renombrar el archivo temporal con el nombre especificado
-    final_path = os.path.join(os.path.dirname(temp_file_path), file_name)
+    final_path = os.path.join(os.path.dirname(temp_file_path), safe_file_name)
     # Mover y renombrar el archivo temporal
     shutil.move(temp_file_path, final_path)
 
