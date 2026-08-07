@@ -7,6 +7,8 @@ on:
 jobs:
   build-test:
     runs-on: ubuntu-latest
+    env:
+      VALID_TOKEN: ci-smoke-test-token-change-me
 
     steps:
       - name: Checkout code
@@ -66,12 +68,12 @@ jobs:
       - name: Test endpoint raíz con curl
         run: |
           sleep 5  # Espera a que el contenedor esté listo
-          curl -f http://localhost:3000/ || (docker-compose logs && exit 1)
+          curl -f http://localhost:3000/ || (docker compose logs && exit 1)
 
       - name: Test endpoint /sample con autenticación
         run: |
           response=$(curl -s -w "\n%{http_code}" -X GET http://localhost:3000/sample \
-            -H "Authorization: Bearer sample" \
+            -H "Authorization: Bearer ${VALID_TOKEN}" \
             -H "Content-Type: application/json" \
             -d '{"username":"testuser","password":"testpass"}')
           http_code=$(echo "$response" | tail -n1)
@@ -81,7 +83,7 @@ jobs:
           # Verificar que devuelve 200 (OK)
           if [ "$http_code" != "200" ]; then
             echo "❌ Error: Se esperaba código 200, pero se obtuvo $http_code"
-            docker-compose logs
+            docker compose logs
             exit 1
           fi
           echo "✅ Test de /sample pasado correctamente (código: 200)"
@@ -89,7 +91,7 @@ jobs:
       - name: Test endpoint /test con autenticación (Controller Test)
         run: |
           response=$(curl -s -w "\n%{http_code}" -X POST http://localhost:3000/test \
-            -H "Authorization: Bearer sample" \
+            -H "Authorization: Bearer ${VALID_TOKEN}" \
             -H "Content-Type: application/json" \
             -d '{"browsers":["chrome"],"test_search":false,"test_writes":false,"screenshots":true}')
           http_code=$(echo "$response" | tail -n1)
@@ -99,7 +101,7 @@ jobs:
           # Verificar que devuelve 200 (OK)
           if [ "$http_code" != "200" ]; then
             echo "❌ Error: Se esperaba código 200, pero se obtuvo $http_code"
-            docker-compose logs
+            docker compose logs
             exit 1
           fi
           echo "✅ Test de /test (Controller Test) pasado correctamente (código: 200)"
