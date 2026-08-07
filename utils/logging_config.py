@@ -38,6 +38,16 @@ def configure_logger():
         if AUTO_DELETE_LOGS:
             delete_old_logs()
 
+    except OSError as e:
+        # Bind-mounted directories may have been created by root on the host.
+        # Keep the request available and let the container runtime collect logs
+        # from stderr instead of failing the scraper operation.
+        _current_log_file = None
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(levelname)s - %(message)s',
+        )
+        logging.warning("File logging unavailable; using stderr: %s", e)
     except Exception as e:
         # In case of error, log the error and raise an exception
         raise messageError("Error setting up logging")

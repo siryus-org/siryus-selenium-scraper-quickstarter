@@ -34,7 +34,10 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Copiar .env.example como .env
-        run: cp .env.example .env
+        run: |
+          cp .env.example .env
+          mkdir -p logs temp_downloads
+          chmod 0777 logs temp_downloads
 
       - name: Ensure external docker networks exist
         run: |
