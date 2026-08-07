@@ -55,11 +55,12 @@ FROM base AS final
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    DOCKERIZED=true
+    DOCKERIZED=true \
+    HOME=/home/scraper
 WORKDIR /app
 
 RUN groupadd --system scraper \
-    && useradd --system --gid scraper --home-dir /app scraper
+    && useradd --system --create-home --gid scraper --home-dir /home/scraper scraper
 
 # Copy requirements and install dependencies
 COPY requirements.txt .
