@@ -2,6 +2,8 @@
 # This file ensures the port is exposed and network configuration doesn't interfere with tests
 services:
   server:
+    build:
+      context: .
     ports:
       - "3000:3000"
     networks:
