@@ -2,11 +2,14 @@ from flask import Flask, jsonify
 from controller.controller_sample import controller_sample
 from controller.controller_test import controller_test
 from utils.handle_request import handle_request_endpoint
-from utils.config import PORT, STAGE
+from utils.config import MAX_CONTENT_LENGTH, PORT, validate_runtime_configuration
+from utils.metrics import init_metrics
 
 def create_app():
-
+    validate_runtime_configuration()
     app = Flask(__name__)
+    app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
+    init_metrics(app)
 
     @app.route('/')
     def index():
@@ -49,6 +52,5 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
-    debug_mode = STAGE != "production"
     port = int(PORT)
-    app.run(debug=debug_mode, host='0.0.0.0', port=port)
+    app.run(debug=False, host='0.0.0.0', port=port)

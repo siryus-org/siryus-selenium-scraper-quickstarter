@@ -1,15 +1,17 @@
+import hmac
 import logging
 from flask import current_app, request
 from utils.config import VALID_TOKEN
 
 
 def authenticate_token():
-    # Replace this with your actual token authentication logic
     logging.info('authenticate token')
-    token = request.headers.get('Authorization')
-    if not token or not token.startswith('Bearer '):
+    authorization = request.headers.get('Authorization', '')
+    scheme, separator, token = authorization.partition(' ')
+    if scheme != 'Bearer' or separator != ' ' or not token or ' ' in token:
         return False
-    token = token.split(' ')[1]
     if current_app and current_app.config.get('TESTING'):
-        return token == 'sample'
-    return token == VALID_TOKEN
+        expected_token = 'sample'
+    else:
+        expected_token = VALID_TOKEN
+    return bool(expected_token) and hmac.compare_digest(token, expected_token)

@@ -201,6 +201,22 @@ def test_create_temp_file_with_special_name():
             os.remove(filepath)
 
 
+def test_create_temp_file_rejects_path_traversal():
+    try:
+        createTempFile(b"content", "../../outside.txt")
+        assert False, "path traversal should be rejected"
+    except messageError:
+        pass
+
+
+def test_get_file_rejects_private_network_urls():
+    try:
+        get_file("http://127.0.0.1/private")
+        assert False, "private network URLs should be rejected"
+    except messageError as error:
+        assert "privadas" in str(error)
+
+
 def test_clean_filename_empty():
     """Verifica comportamiento con string vacío"""
     assert clean_filename("") == ""

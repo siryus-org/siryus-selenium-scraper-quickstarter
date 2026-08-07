@@ -252,6 +252,32 @@ This project includes a preconfigured GitHub Actions workflow for continuous int
 
 > ⚙️ You can customize or extend these workflows by editing the files in `.github/workflows/` as needed for your CI/CD requirements.
 
+## 📈 Prometheus metrics
+
+The API listens on port `3000`; Prometheus metrics are intentionally served by a
+separate process on port `9090` at `/metrics`. The metrics port is bound to
+`127.0.0.1` by the example Compose file. In a private Docker network it can be
+scraped directly as `server:9090`.
+
+Available application metrics include:
+
+- `scraper_http_requests_total`: successful and failed calls by endpoint, method, and status.
+- `scraper_http_request_duration_seconds`: request latency histogram.
+- `scraper_http_requests_in_progress`: current API usage/concurrency.
+- `scraper_unhandled_exceptions_total`: unhandled request exceptions.
+- `scraper_build_info`: service identity and scrape readiness.
+
+Set `SCRAPER_SERVICE_NAME` to a stable deployment name and change
+`METRICS_PORT` if `9090` is already in use. Production startup also requires a
+non-default `VALID_TOKEN`; the image refuses to start with `sample`.
+
+```bash
+curl http://127.0.0.1:9090/-/healthy
+curl http://127.0.0.1:9090/metrics
+```
+
+---
+
 ## 🧪 Automated Testing
 
 The project includes automated tests located in the `test/` folder, using `pytest` and Flask's test client.

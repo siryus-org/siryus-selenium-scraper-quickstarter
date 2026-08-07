@@ -1,7 +1,7 @@
 import logging
 import time
 from flask import jsonify, request
-from utils.config import DOWNLOAD_DIR, STAGE
+from utils.config import DOWNLOAD_DIR
 from utils.file_manager import create_download_directory
 from utils.logging_config import configure_logger
 from utils.security import authenticate_token
@@ -17,9 +17,12 @@ def handle_request_endpoint(controller_function, decode_response=True):
     if not request.is_json:
         return jsonify({"status": "ERROR", "message": "A JSON was expected in the request body", "time": time.time() - start_time}), 400
     try:
-        data = request.json
+        data = request.get_json()
         logging.info(
-            {key: value for key, value in data.items() if key != 'password'})
+            "Request accepted for controller %s with fields %s",
+            controller_function.__name__,
+            sorted(data.keys()) if isinstance(data, dict) else [],
+        )
         message = controller_function(data)
         if decode_response:
             logging.info(f"OK - message: {message}")
@@ -27,6 +30,5 @@ def handle_request_endpoint(controller_function, decode_response=True):
         else:
             return message
     except Exception as e:
-        error_message = str(e)
-        logging.error(f"ERROR: {error_message}")
-        return jsonify({"status": "ERROR", "message": "An internal error has occurred. " + error_message, "time": time.time() - start_time}), 400
+        logging.exception("Controller %s failed", controller_function.__name__)
+        return jsonify({"status": "ERROR", "message": "The request could not be processed.", "time": time.time() - start_time}), 400

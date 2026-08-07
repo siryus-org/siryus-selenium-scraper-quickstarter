@@ -65,8 +65,10 @@ SECURITY.md
 **/compose.y*ml
 **/.dockerignore
 
-# Environment files (commented out as we need .env for build)
-# **/.env
+# Environment files and local secrets must never enter an image build context.
+**/.env
+**/.env.*
+!**/.env.example
 
 # IDE and editor files
 **/.project
