@@ -1,6 +1,7 @@
 import inspect
 import logging
 import os
+import threading
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -66,24 +67,29 @@ def get_page(browser='chrome', url=BASE_URL):
     logging.info(
         f"START || {inspect.currentframe().f_code.co_name} - Browser: {browser}, URL: {url}")
 
-    if browser == 'firefox':
-        driver = get_driver_firefox()
-    else:
-        driver = get_driver_chrome()
-        stealth(
-            driver,
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-            languages=["en-US", "en"],
-            vendor="Google Inc.",
-            platform="Win32",
-            webgl_vendor="Intel Inc.",
-            renderer="Intel Iris OpenGL Engine",
-            fix_hairline=True,
-        )
-    logging.info('Getting URL')
-
-    driver.get(url)
-    return driver
+    driver = None
+    try:
+        if browser == 'firefox':
+            driver = get_driver_firefox()
+        else:
+            driver = get_driver_chrome()
+            stealth(
+                driver,
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+                languages=["en-US", "en"],
+                vendor="Google Inc.",
+                platform="Win32",
+                webgl_vendor="Intel Inc.",
+                renderer="Intel Iris OpenGL Engine",
+                fix_hairline=True,
+            )
+        logging.info('Getting URL')
+        driver.get(url)
+        return driver
+    except Exception:
+        # A browser can exist even when get_page() never returns it.
+        close_driver(driver)
+        raise
 
 
 def get_wait(driver):
@@ -92,10 +98,65 @@ def get_wait(driver):
     return WebDriverWait(driver, PAGE_MAX_TIMEOUT)
 
 
+def _get_driver_processes(driver):
+    """Return the service/browser process tree owned by this WebDriver."""
+    try:
+        service_process = driver.service.process
+        if service_process is None:
+            return []
+        root_process = psutil.Process(service_process.pid)
+        return root_process.children(recursive=True) + [root_process]
+    except (AttributeError, psutil.Error):
+        return []
+
+
+def _terminate_processes(processes):
+    processes = [process for process in processes if process.is_running()]
+    for process in processes:
+        try:
+            process.terminate()
+        except psutil.Error:
+            pass
+
+    _, alive = psutil.wait_procs(processes, timeout=2)
+    for process in alive:
+        try:
+            process.kill()
+        except psutil.Error:
+            pass
+    psutil.wait_procs(alive, timeout=2)
+
+
 def close_driver(driver):
+    """Close a driver without allowing hung browser processes to accumulate."""
+    if driver is None:
+        return
+
     logging.info(f"START || {inspect.currentframe().f_code.co_name}")
-    if driver:
-        driver.quit()
+    processes = _get_driver_processes(driver)
+    quit_errors = []
+
+    def quit_driver():
+        try:
+            driver.quit()
+        except Exception as error:
+            quit_errors.append(error)
+
+    quit_thread = threading.Thread(target=quit_driver, daemon=True)
+    quit_thread.start()
+    quit_thread.join(timeout=10)
+
+    if quit_thread.is_alive():
+        logging.warning('WebDriver quit timed out; terminating its process tree')
+    elif quit_errors:
+        logging.warning('WebDriver quit failed: %s', quit_errors[0])
+
+    # quit() normally stops them. Only terminate processes belonging to this
+    # driver when they survived the graceful close.
+    _, alive = psutil.wait_procs(processes, timeout=2)
+    if alive:
+        _terminate_processes(alive)
+    quit_thread.join(timeout=2)
 
 
 # This function, kill all chrome process
