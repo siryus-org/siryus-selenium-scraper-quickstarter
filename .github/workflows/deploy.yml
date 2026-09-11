@@ -21,12 +21,3 @@ jobs:
       attestations: write
       id-token: write
     uses: ./.github/workflows/docker-publish.yml
-
-  notify-webhook:
-    needs: [test, docker-publish]
-    runs-on: ubuntu-latest
-    if: success()  # Solo se ejecuta si los jobs anteriores fueron exitosos
-    steps:
-      - name: Webhook to Service
-        run: |
-          curl -f -X POST http://service || echo "Error haciendo POST"
