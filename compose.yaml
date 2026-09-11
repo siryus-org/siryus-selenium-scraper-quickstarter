@@ -1,7 +1,6 @@
 services:
   server:
-    build:
-      context: .
+    image: ghcr.io/ismola/selenium-scraper-quickstarter:main
     ports:
       - 3000:3000
       - 127.0.0.1:${METRICS_PORT:-9090}:9090
@@ -22,7 +21,7 @@ services:
       - DOWNLOAD_MAX_TIMEOUT=${DOWNLOAD_MAX_TIMEOUT:-4}
       - BASE_URL=${BASE_URL:-https://www.google.com/}
       - METRICS_PORT=9090
-      - SCRAPER_SERVICE_NAME=${SCRAPER_SERVICE_NAME:-siryus-selenium-scraper-quickstarter}
+      - SCRAPER_SERVICE_NAME=${SCRAPER_SERVICE_NAME:-selenium-scraper-quickstarter}
       - MAX_CONTENT_LENGTH=${MAX_CONTENT_LENGTH:-10485760}
     healthcheck:
       test: [ "CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:3000/')" ]
@@ -37,8 +36,3 @@ services:
           target: /app
         - action: rebuild
           path: requirements.txt
-    networks:
-      - cloudflare_siryus-network
-networks:
-  cloudflare_siryus-network:
-    external: true
