@@ -31,4 +31,4 @@ def handle_request_endpoint(controller_function, decode_response=True):
             return message
     except Exception as e:
         logging.exception("Controller %s failed", controller_function.__name__)
-        return jsonify({"status": "ERROR", "message": "The request could not be processed.", "time": time.time() - start_time}), 400
+        return jsonify({"status": "ERROR", "message": f"The request could not be processed: {e}", "time": time.time() - start_time}), 400
