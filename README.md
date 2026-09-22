@@ -252,6 +252,12 @@ This project includes a preconfigured GitHub Actions workflow for continuous int
 
 > ⚙️ You can customize or extend these workflows by editing the files in `.github/workflows/` as needed for your CI/CD requirements.
 
+## Shared scraper runtime
+
+The Dockerfile uses the versioned [selenium-scraper-runtime](https://github.com/Ismola/selenium-scraper-runtime) base image. Logging and Prometheus metrics are imported from the same public Python package. Update the runtime tag in both `Dockerfile` and `requirements.txt` together, then run the tests and container smoke test before merging. Dependabot checks the Docker base image weekly.
+
+Application logs are JSON on stdout and include a `run_id`; every API response includes `X-Run-ID`. Alloy can collect the Docker logs and forward them to Loki for Grafana.
+
 ## 📈 Prometheus metrics
 
 The API listens on port `3000`; Prometheus metrics are intentionally served by a
