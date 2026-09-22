@@ -1,7 +1,7 @@
 from prometheus_client import generate_latest
 
 from main import app
-from utils.metrics import track_task
+from selenium_scraper_runtime import track_task
 
 
 def test_metrics_track_successful_and_failed_requests():

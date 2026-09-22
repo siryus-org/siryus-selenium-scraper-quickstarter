@@ -6,14 +6,12 @@ services:
       - 127.0.0.1:${METRICS_PORT:-9090}:9090
     container_name: selenium-scraper-quickstarter
     volumes:
-      - ./logs:/app/logs
       - ./temp_downloads:/app/temp_downloads
     restart: unless-stopped
     environment:
       - TZ=${TZ:-Europe/Madrid}
       - STAGE=${STAGE:-production}
       - VALID_TOKEN=${VALID_TOKEN:?VALID_TOKEN must be set}
-      - AUTO_DELETE_LOGS=${AUTO_DELETE_LOGS:-True}
       - HEADLESS_MODE=${HEADLESS_MODE:-auto}
       - BROWSER_LANGUAGE=${BROWSER_LANGUAGE:-en}
       - DOWNLOAD_DIR=${DOWNLOAD_DIR:-temp_downloads}

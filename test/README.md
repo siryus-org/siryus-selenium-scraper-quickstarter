@@ -119,7 +119,6 @@ Tests para el manejo de peticiones HTTP:
 
 ---
 
-### 6️⃣ `test_logging_config.py` - 9 tests 📝
 
 Tests para el sistema de logging y rotación:
 
@@ -132,7 +131,6 @@ Tests para el sistema de logging y rotación:
 - ✅ Manejo de múltiples archivos
 - ✅ Manejo de timestamps mezclados
 
-**Cobertura:** `utils/logging_config.py`
 
 ---
 
@@ -188,7 +186,6 @@ pytest test/ -v --tb=short
 | Manejo de Errores | test_error.py | 8 | ✅ |
 | Gestión de Archivos | test_file_manager.py | 17 | ✅ |
 | Manejo de Requests | test_handle_request.py | 12 | ✅ |
-| Sistema de Logging | test_logging_config.py | 9 | ✅ |
 | API Flask | test_main.py | 3 | ✅ |
 | **TOTAL** | **7 archivos** | **61** | **✅** |
 

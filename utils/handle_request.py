@@ -3,12 +3,10 @@ import time
 from flask import jsonify, request
 from utils.config import DOWNLOAD_DIR
 from utils.file_manager import create_download_directory
-from utils.logging_config import configure_logger
 from utils.security import authenticate_token
 
 
 def handle_request_endpoint(controller_function, decode_response=True):
-    configure_logger()
     create_download_directory(DOWNLOAD_DIR)
     start_time = time.time()
     logging.info("|| Controller:" + controller_function.__name__)
@@ -25,10 +23,10 @@ def handle_request_endpoint(controller_function, decode_response=True):
         )
         message = controller_function(data)
         if decode_response:
-            logging.info(f"OK - message: {message}")
+            logging.info("Controller %s completed", controller_function.__name__)
             return jsonify({"status": "OK", "message": message, "time": time.time() - start_time}), 200
         else:
             return message
     except Exception as e:
         logging.exception("Controller %s failed", controller_function.__name__)
-        return jsonify({"status": "ERROR", "message": f"The request could not be processed: {e}", "time": time.time() - start_time}), 400
+        return jsonify({"status": "ERROR", "message": "The request could not be processed.", "time": time.time() - start_time}), 400

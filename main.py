@@ -3,12 +3,13 @@ from controller.controller_sample import controller_sample
 from controller.controller_test import controller_test
 from utils.handle_request import handle_request_endpoint
 from utils.config import MAX_CONTENT_LENGTH, PORT, validate_runtime_configuration
-from utils.metrics import init_metrics
+from selenium_scraper_runtime import init_metrics, init_request_logging
 
 def create_app():
     validate_runtime_configuration()
     app = Flask(__name__)
     app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
+    init_request_logging(app)
     init_metrics(app)
 
     @app.route('/')

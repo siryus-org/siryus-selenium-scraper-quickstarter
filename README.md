@@ -44,7 +44,7 @@ Configure scraper behavior via variables in the `.env` file. Copy `.env.example`
 | `STAGE`            | Yes      | `production`, `testing`, `staging`       | Execution environment (affects visibility and real actions)        |
 | `VALID_TOKEN`      | Yes      | `sample`                                 | Bearer token to authenticate requests                              |
 | `HEADLESS_MODE`    | Optional | `auto`, `True`, `False`                  | Controls if the browser is visible or headless                     |
-| `AUTO_DELETE_LOGS` | Optional | `True`, `False`                          | Automatically deletes old logs                                     |
+| `LOG_LEVEL` | Optional | `INFO`, `DEBUG`, `WARNING` | JSON stdout logging level |
 
 > **Note:** See `.env.example` for more details and recommendations.
 > **Base URL:** The base URL is now set in the constant `BASE_URL` inside `utils/config.py`.  
@@ -223,7 +223,7 @@ docker compose up --build
 
 #### Volumes in Compose
 
-- `./logs:/app/logs`: Persists application logs on your host machine for easier debugging and auditing.
+- Application logs are JSON on stdout and can be collected by Alloy and viewed in Grafana via Loki.
 - `./temp_downloads:/app/temp_downloads`: Stores downloaded files outside the container, so you don't lose data on container restarts.
 
 > **Tip:** You can customize the exposed ports and volume paths in `compose.yaml` as needed for your infrastructure.

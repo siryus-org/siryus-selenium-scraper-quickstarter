@@ -1,7 +1,7 @@
 import os
 
 from prometheus_client import CONTENT_TYPE_LATEST, REGISTRY, CollectorRegistry, generate_latest, multiprocess
-from utils.metrics import BUILD_INFO
+from selenium_scraper_runtime.metrics import BUILD_INFO
 
 _ = BUILD_INFO
 
