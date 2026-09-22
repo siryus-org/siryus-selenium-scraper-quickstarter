@@ -1,4 +1,4 @@
-FROM ghcr.io/ismola/selenium-scraper-runtime:v0.1.1
+FROM ghcr.io/ismola/selenium-scraper-runtime:v0.1.2
 
 USER root
 WORKDIR /app

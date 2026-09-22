@@ -13,4 +13,4 @@ pytest
 bs4
 prometheus-client>=0.20,<1
 selenium_stealth
-selenium-scraper-runtime @ https://github.com/Ismola/selenium-scraper-runtime/archive/refs/tags/v0.1.1.tar.gz
+selenium-scraper-runtime @ https://github.com/Ismola/selenium-scraper-runtime/archive/refs/tags/v0.1.2.tar.gz
