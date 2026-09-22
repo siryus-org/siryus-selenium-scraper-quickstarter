@@ -1,7 +1,7 @@
 
 import inspect
 import logging
-from actions.web_driver import close_driver, get_page
+from selenium_scraper_runtime.browser import close_driver, get_page
 from utils.error import messageError
 
 # NO BORRAR PARA QUE LOS TEST DE LA PIPELINE NO DEN ERROR

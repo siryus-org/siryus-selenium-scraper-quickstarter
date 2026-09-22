@@ -1,7 +1,5 @@
 import inspect
-from actions.click_element import click_element
-from actions.search_element import search_element
-from actions.write_element import write_element
+from selenium_scraper_runtime.elements import click_element, search_element, write_element
 from utils.error import messageError
 from selenium.webdriver.common.by import By
 import logging

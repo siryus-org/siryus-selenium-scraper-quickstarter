@@ -193,14 +193,13 @@ pytest test/ -v --tb=short
 
 ## 🔍 Componentes sin Tests
 
-Los siguientes componentes **NO** tienen tests porque requieren Selenium/ChromeDriver:
+Los siguientes componentes específicos de la plantilla requieren pruebas de integración con un sitio real:
 
-- ❌ `actions/click_element.py`
 - ❌ `actions/login.py`
-- ❌ `actions/search_element.py`
-- ❌ `actions/web_driver.py`
-- ❌ `actions/write_element.py`
 - ❌ `controller/controller_sample.py`
+
+La creación y limpieza del navegador, y las acciones comunes sobre elementos,
+se prueban en `selenium-scraper-runtime`.
 
 Para testear estos componentes, se recomienda:
 

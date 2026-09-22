@@ -29,6 +29,8 @@ trap 'terminate; exit 143' INT TERM
 gunicorn \
     --config python:gunicorn_metrics \
     --workers "${WEB_CONCURRENCY:-2}" \
+    --max-requests "${GUNICORN_MAX_REQUESTS:-100}" \
+    --max-requests-jitter 10 \
     --bind "0.0.0.0:${PORT:-3000}" \
     --no-control-socket \
     --timeout "${GUNICORN_TIMEOUT:-600}" \

@@ -47,8 +47,7 @@ Configure scraper behavior via variables in the `.env` file. Copy `.env.example`
 | `LOG_LEVEL` | Optional | `INFO`, `DEBUG`, `WARNING` | JSON stdout logging level |
 
 > **Note:** See `.env.example` for more details and recommendations.
-> **Base URL:** The base URL is now set in the constant `BASE_URL` inside `utils/config.py`.  
-> To change the target site, edit the value of `BASE_URL` in that file.
+> **Base URL:** Set `BASE_URL` in `.env` or pass `url=` to the shared browser helper.
 
 ---
 
@@ -65,7 +64,7 @@ cd selenium-scraper-quickstarter
 
 - Copy `.env.example` to `.env` and edit it as needed.
 - Make sure you have Python 3.x and Google Chrome installed.
-- **Set the base URL:** Edit the `BASE_URL` constant in `utils/config.py` to point to your target website.
+- **Set the base URL:** Set `BASE_URL` in `.env` to point to your target website.
 
 ### 3. Choose your development mode
 
@@ -254,7 +253,9 @@ This project includes a preconfigured GitHub Actions workflow for continuous int
 
 ## Shared scraper runtime
 
-The Dockerfile uses the versioned [selenium-scraper-runtime](https://github.com/Ismola/selenium-scraper-runtime) base image. Logging and Prometheus metrics are imported from the same public Python package. Update the runtime tag in both `Dockerfile` and `requirements.txt` together, then run the tests and container smoke test before merging. Dependabot checks the Docker base image weekly.
+The Dockerfile uses the versioned [selenium-scraper-runtime](https://github.com/Ismola/selenium-scraper-runtime) base image. Logging, Prometheus metrics, browser setup and cleanup, and common element actions are imported from the same public Python package. Update the runtime tag in both `Dockerfile` and `requirements.txt` together, then run the tests and container smoke test before merging. Dependabot checks the Docker base image weekly.
+
+Use `selenium_scraper_runtime.browser` for `get_page`, `browser_session`, `get_wait`, and `close_driver`; use `selenium_scraper_runtime.elements` for `search_element`, `click_element`, `write_element`, and `hover_element`. Keep only site-specific selectors and workflows in `actions/`. `WEBDRIVER_MAX_LIFETIME` limits the lifetime of a local browser session, including when a worker dies before it can close the driver. Raise it in `.env` for legitimate jobs longer than 12 minutes. Gunicorn recycles API workers after a bounded number of requests (`GUNICORN_MAX_REQUESTS`, default 100) to limit long-term memory growth.
 
 Application logs are JSON on stdout and include a `run_id`; every API response includes `X-Run-ID`. Alloy can collect the Docker logs and forward them to Loki for Grafana.
 
@@ -327,12 +328,9 @@ Each time the devcontainer starts, they are cloned and updated automatically in 
 
 ## 🐞 Troubleshooting
 
-### Common error: `local variable 'driver' referenced before assignment`
+### Browser startup errors
 
-- This may be due to incompatibility between Chrome and Chromedriver.
-- Quick fix:
-    1. Delete the drivers folder: `rm -rf ~/.wdm`
-    2. Restart the environment.
+- Check the container logs for the specific driver error. The base image includes a matching Chromium and ChromeDriver. For local development, Selenium resolves the driver for the installed browser.
 
 ### Other issues
 

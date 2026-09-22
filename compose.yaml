@@ -1,6 +1,7 @@
 services:
   server:
     image: ghcr.io/ismola/selenium-scraper-quickstarter:main
+    init: true
     ports:
       - 3000:3000
       - 127.0.0.1:${METRICS_PORT:-9090}:9090
@@ -13,9 +14,15 @@ services:
       - STAGE=${STAGE:-production}
       - VALID_TOKEN=${VALID_TOKEN:?VALID_TOKEN must be set}
       - HEADLESS_MODE=${HEADLESS_MODE:-auto}
+      - SELENIUM_STEALTH=${SELENIUM_STEALTH:-true}
       - BROWSER_LANGUAGE=${BROWSER_LANGUAGE:-en}
       - DOWNLOAD_DIR=${DOWNLOAD_DIR:-temp_downloads}
       - PAGE_MAX_TIMEOUT=${PAGE_MAX_TIMEOUT:-7}
+      - WEBDRIVER_COMMAND_TIMEOUT=${WEBDRIVER_COMMAND_TIMEOUT:-60}
+      - PAGE_LOAD_TIMEOUT=${PAGE_LOAD_TIMEOUT:-60}
+      - SCRIPT_TIMEOUT=${SCRIPT_TIMEOUT:-30}
+      - WEBDRIVER_MAX_LIFETIME=${WEBDRIVER_MAX_LIFETIME:-720}
+      - GUNICORN_MAX_REQUESTS=${GUNICORN_MAX_REQUESTS:-100}
       - DOWNLOAD_MAX_TIMEOUT=${DOWNLOAD_MAX_TIMEOUT:-4}
       - BASE_URL=${BASE_URL:-https://www.google.com/}
       - METRICS_PORT=9090

@@ -1,16 +1,5 @@
-# Core application dependencies
-flask
 gunicorn
-# Selenium automation
-selenium
-webdriver-manager
-# Utilities
 python-dotenv
-psutil
 requests
-screeninfo
 pytest
-bs4
-prometheus-client>=0.20,<1
-selenium_stealth
-selenium-scraper-runtime @ https://github.com/Ismola/selenium-scraper-runtime/archive/refs/tags/v0.1.2.tar.gz
+selenium-scraper-runtime[browser] @ https://github.com/Ismola/selenium-scraper-runtime/archive/refs/tags/v0.2.1.tar.gz
