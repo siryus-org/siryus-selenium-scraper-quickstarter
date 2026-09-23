@@ -253,7 +253,7 @@ This project includes a preconfigured GitHub Actions workflow for continuous int
 
 ## Shared scraper runtime
 
-The Dockerfile uses the versioned [selenium-scraper-runtime](https://github.com/Ismola/selenium-scraper-runtime) base image. Logging, Prometheus metrics, browser setup and cleanup, and common element actions are imported from the same public Python package. Update the runtime tag in both `Dockerfile` and `requirements.txt` together, then run the tests and container smoke test before merging. Dependabot checks the Docker base image weekly.
+The Dockerfile and devcontainer use the rolling `latest` [selenium-scraper-runtime](https://github.com/Ismola/selenium-scraper-runtime) image. Logging, Prometheus metrics, browser setup and cleanup, and common element actions are installed from the runtime `main` branch. Rebuild with pull enabled to receive current shared code and browsers.
 
 Use `selenium_scraper_runtime.browser` for `get_page`, `browser_session`, `get_wait`, and `close_driver`; use `selenium_scraper_runtime.elements` for `search_element`, `click_element`, `write_element`, and `hover_element`. Keep only site-specific selectors and workflows in `actions/`. `WEBDRIVER_MAX_LIFETIME` limits the lifetime of a local browser session, including when a worker dies before it can close the driver. Raise it in `.env` for legitimate jobs longer than 12 minutes. Gunicorn recycles API workers after a bounded number of requests (`GUNICORN_MAX_REQUESTS`, default 100) to limit long-term memory growth.
 

@@ -1,6 +1,7 @@
 services:
   server:
     image: ghcr.io/ismola/selenium-scraper-quickstarter:main
+    pull_policy: always
     init: true
     ports:
       - 3000:3000
