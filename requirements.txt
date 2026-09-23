@@ -2,4 +2,4 @@ gunicorn
 python-dotenv
 requests
 pytest
-selenium-scraper-runtime[browser] @ https://github.com/Ismola/selenium-scraper-runtime/archive/refs/tags/v0.2.2.tar.gz
+selenium-scraper-runtime[browser] @ https://github.com/Ismola/selenium-scraper-runtime/archive/refs/tags/v0.2.3.tar.gz

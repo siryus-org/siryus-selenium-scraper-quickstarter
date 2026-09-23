@@ -3,7 +3,14 @@
 {
 	"name": "siryus-selenium-scrapper-quickstarter",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/base:bookworm",
+	"image": "ghcr.io/ismola/selenium-scraper-runtime:v0.2.3",
+	"containerEnv": {
+		"DOCKERIZED": "false",
+		"HEADLESS_MODE": "auto",
+		"CHROME_BIN": "/usr/bin/chromium",
+		"CHROMEDRIVER_BIN": "/usr/bin/chromedriver",
+		"FIREFOX_BIN": "/usr/bin/firefox-esr"
+	},
 	"features": {
 		"ghcr.io/devcontainers/features/docker-in-docker:4": {
 			"version": "latest",
@@ -28,13 +35,14 @@
 			}
 		}
 	},
+	"containerUser": "root",
 	"remoteUser": "root",
 	"hostRequirements": {
 		"cpus": 2,
 		"memory": "8gb",
 		"storage": "32gb"
 	},
-	"postCreateCommand": "python -m pip install -r requirements.txt && apt-get update && apt-get install -y wget && wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && apt-get install -y ./google-chrome-stable_current_amd64.deb && rm google-chrome-stable_current_amd64.deb && apt-get install -y firefox-esr && apt-get clean",
+	"postCreateCommand": "python -m pip install -r requirements.txt",
 	// TODO: cambiar el nombre del contenedor y puerto
 	"appPort": 3000,
 	"runArgs": [
