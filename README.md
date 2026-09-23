@@ -84,7 +84,7 @@ cd selenium-scraper-quickstarter
 ```bash
 python3 -m venv venv
 source venv/bin/activate  # or .\venv\Scripts\activate on Windows
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ---
@@ -298,8 +298,7 @@ The project includes automated tests located in the `test/` folder, using `pytes
 1. Install dependencies if you haven't already:
 
    ```bash
-   pip install -r requirements.txt
-   pip install pytest
+   python -m pip install -r requirements.txt
    ```
 
 2. Run the tests:
