@@ -12,11 +12,7 @@
 		"FIREFOX_BIN": "/usr/bin/firefox-esr"
 	},
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:4": {
-			"version": "latest",
-			"enableNonRootDocker": "true",
-			"moby": "true"
-		}
+				"ghcr.io/devcontainers/features/docker-in-docker:4": {}
 		// ,
 		// "ghcr.io/devcontainers/features/python:1": {
 		// 	"version": "latest"
@@ -46,10 +42,10 @@
 	},
 	"postCreateCommand": "pip install -r requirements.txt",
 	// TODO: cambiar el nombre del contenedor y puerto
-	"appPort": 3000,
+	// "appPort": 3000,
 	"runArgs": [
 		"--name",
-		"selenium-scrapper-quickstarter",
+		"siryus-selenium-scrapper-quickstarter",
 		"--env",
 		"TZ=Europe/Madrid"
 		// ,"--network",
